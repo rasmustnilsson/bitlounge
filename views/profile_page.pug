@@ -1,0 +1,12 @@
+extends layout
+
+block content
+    p= statistics
+    include includes/navbar.pug
+    h3= 'username: ' + req.user.username
+    // use the statistics object ex "p= statistics.wins" or "bar#{statistics.activeBets}foo"
+    ul
+        li= 'Wins: ' + req.user.statistics.wins
+        li= 'Losses: ' + req.user.statistics.losses
+        li Total bets: #{req.user.statistics.totalBets}
+        li Active bets: #{req.user.statistics.activeBets}

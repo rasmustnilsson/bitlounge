@@ -4,6 +4,10 @@ module.exports = function(app,passport,isLoggedIn) {
         req.logout();
         res.redirect('/');
     });
+    app.get('/profile/:profileId', ((req, res, next) => {
+        if(!req.isAuthenticated()) return res.render('login_page');
+        res.render('profile_page', { req: req });
+    }));
     app.get('/', function(req, res, next) {
         if(!req.isAuthenticated()) return res.render('login_page');
         res.render('front_page', { req: req });
