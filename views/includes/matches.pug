@@ -1,18 +1,14 @@
 div(id="matches")
-	div.matches_wrapper
-		div(v-for="match in matchesList")
-			div.card.text-center(style="background-image:url('https://thehaletelescope.com/wp-content/uploads/2016/10/cbde761213b67bb4a83e25cac18880f8.jpg'); background-size:  100%;")
-				h4.card-title {{ match.team1.name }} VS {{ match.team2.name }}
-				h4 Format: {{ match.format }}
-				h2 Maps
-				ul
-					li(v-for="map in match.maps") {{ map }}
-
-				
-
+  div.matches_wrapper
+    div(v-for="match in matchesList")
+      div.card.text-center(style="background-image:url('https://thehaletelescope.com/wp-content/uploads/2016/10/cbde761213b67bb4a83e25cac18880f8.jpg'); background-size:  100%;")
+        h4.card-title {{ match.team1.name }} VS {{ match.team2.name }}
+        h4 Format: {{ match.format }}
+        h2 Maps
+        ul(v-if="!match.maps == 'tba'")
+          li(v-for="map in match.maps") {{ map }}
+        p(v-else) TBA
+                
 script(src="javascripts/components/matchesVue.js")
-
-
-
 //h2 Event name: {{ match.event.name }}		
 //h4 isLive: {{ match.live }}
