@@ -1,10 +1,10 @@
-const maps = {
+module.exports = {
     ovp: 'Overpass',
     cch: 'Cache',
     inf: 'Inferno',
     cbl: 'Cobblestone',
     mrg: 'Mirage',
+    trn: 'Train',
     Nuke: 'Nuke',
+    tba: 'undefined',
 }
-
-module.exports = maps;

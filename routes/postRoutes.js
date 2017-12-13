@@ -14,20 +14,22 @@ module.exports = function(app,passport,isLoggedIn) {
     app.post('/getMatches', function(req,res,next) {
         HLTV.getMatches().then((matches) => {
             var list = [];
-            for(match in matches) {
-                if(matches[match].team1 && matches[match].team2) {
-                    if(matches[match].maps == undefined ) {
-                        matches[match].maps = ['undefined'];
-                    } else if(matches[match].maps.length > 1) {
-                        for(map in matches[match].maps) {
-                            if(matches[match].maps[map] == 'default') matches[match].maps[map] = 'undefined';
-                            else matches[match].maps[map] = mapsTranslator[matches[match].maps[map]]
-                            console.log(matches[match].maps[map]);
-                        }
+            for(let i = 0; i < matches.length; i++) {
+                if(matches[i].team1 != undefined && matches[i].team2 != undefined) {
+                    var match = matches[i];
+                    for(map in match.maps) {
+                        match.maps[map] = mapsTranslator[match.maps[map]];
                     }
-                    list.push(matches[match]);
+                    if(match.map) {
+                        match.maps = [mapsTranslator[match.map]];
+                    }
+                    if(!match.maps && !match.maps) {
+                        match.maps = ['undefined']
+                    }
+                    list.push(match);
                 }
             }
+            console.log(list);
             res.send(list);
         })
     })
