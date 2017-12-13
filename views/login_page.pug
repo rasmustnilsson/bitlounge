@@ -1,9 +1,12 @@
 extends layout
 
 block content
-	h1= title
-	include includes/login_form.pug
-	include includes/signup_form.pug
+	header
+		h1 BitLounge
+		div.form
+			include includes/login_form.pug
+			include includes/signup_form.pug
+	
 	div.row
 		div.col
 			include includes/matches.pug
