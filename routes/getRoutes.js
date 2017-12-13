@@ -4,9 +4,11 @@ module.exports = function(app,passport,isLoggedIn) {
         req.logout();
         res.redirect('/');
     });
-    app.get('/profile/:profileId', ((req, res, next) => {
-        if(!req.isAuthenticated()) return res.render('login_page');
+    app.get('/profile/:profileId',isLoggedIn,((req, res, next) => {
         res.render('profile_page', { req: req });
+    }));
+    app.get('/match/:match',((req, res, next) => {
+        res.render('match_page', { id: req.params.match });
     }));
     app.get('/', function(req, res, next) {
         if(!req.isAuthenticated()) return res.render('login_page');
