@@ -1,0 +1,14 @@
+div(id="matches")
+    div(v-for="match in matchesList")
+        h2 Event name: {{ match.event.name }}
+        h4 Format: {{ match.format }}
+        h4 isLive: {{ match.live }}
+        h3 Team1: {{ match.team1.name }}
+        h3 Team2: {{ match.team2.name }}
+        h2 Maps
+        ul
+            li(v-for="map in match.maps") {{ map }}
+
+            
+
+script(src="javascripts/components/matchesVue.js")
