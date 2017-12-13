@@ -46,3 +46,7 @@ h1 {
 	height: 64px;
 	float:left;
 	padding-left: 10px;
+}
+.imageFit{
+	background-size:100%;
+}
