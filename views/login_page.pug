@@ -2,7 +2,7 @@ extends layout
 
 block content
 	header
-		h1 BitLounge
+		h1.display-4 BitLounge
 		div.form
 			include includes/login_form.pug
 			include includes/signup_form.pug
@@ -11,3 +11,53 @@ block content
 		div.col
 			include includes/matches.pug
 		div.col
+			div.col
+				div.radio_button
+					div.btn-group(data-toggle="buttons")
+						label.btn.btn-secondary.active
+							input.option1(type="radio" name="options" autocomplete="off" checked)
+						label.btn.btn-secondary
+							input.option2(type="radio" name="options" autocomplete="off")
+				div.col-12
+					div.card
+						p Lorem impsum
+					div.card
+						p Lorem impsum
+					div.card
+						p Lorem impsum
+					div.card
+						p Lorem impsum
+					div.card
+						p Lorem impsum
+					
+					div.row
+						div.col
+							ul.list-group
+								li.list-group-item
+									span.badge
+										1
+									span Fnatic
+							ul.list-group
+								li.list-group-item
+									span.badge
+										2
+									span NIP
+							ul.list-group
+								li.list-group-item
+									span.badge
+										3
+									span TSM
+							ul.list-group
+								li.list-group-item
+									span.badge
+										4
+									span SK
+							ul.list-group
+								li.list-group-item
+									span.badge
+										5
+									span Astralis
+									
+						div.col
+							figure.figure
+								img.poster(src="https://i.pinimg.com/736x/b4/a5/00/b4a500f0981128613e129c8a3d25346c--vans-black-friday-friday-.jpg")
