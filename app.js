@@ -32,7 +32,6 @@ app.use(session({ // session secret
     resave: false,
     saveUninitialized: false,
 }));
-
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 
