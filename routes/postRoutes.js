@@ -3,14 +3,6 @@ const mapsTranslator = require('../config/mapsTranslator');
 const { HLTV } = require('hltv')
 
 module.exports = function(app,passport,isLoggedIn) {
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/', // redirect to the secure profile section
-        failureRedirect : '/', // redirect back to the signup page if there is an error
-    }));
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/', // redirect to the secure profile section
-        failureRedirect : '/err', // redirect back to the signup page if there is an error
-    }));
     app.post('/getMatches', function(req,res,next) {
         HLTV.getMatches().then((matches) => {
             var list = [];
@@ -29,15 +21,15 @@ module.exports = function(app,passport,isLoggedIn) {
                     list.push(match);
                 }
             }
-            console.log(list);
             res.send(list);
         })
     })
     app.post('/getMatch/:matchId', function(req,res) {
         HLTV.getMatch({id: req.params.matchId}).then(match => {
-            console.log(match);
             res.send(match)
         })
     })
+    app.post('/auth/coinbase',passport.authenticate('coinbase-login'));
+    app.post('/signup/coinbase',passport.authenticate('coinbase-signup'));
 
 }

@@ -2,8 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt   = require('bcryptjs');
 
 const userSchema = mongoose.Schema({
-  username: String,
-  password: String,
+  coinBaseId: String,
   isAdmin: { type: Boolean, default: false },
   reg_date: { type: Date, default: Date.now },
   statistics: {
