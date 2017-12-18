@@ -1,5 +1,5 @@
 module.exports = {
-    url : '--insert-coinbase-client-secret-here--"',
+    url : '--insert-mongo-client-secret-here--"',
     options: {
         useMongoClient: true,
     }
