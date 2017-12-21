@@ -1,8 +1,9 @@
-var dynamoose = require('dynamoose');
+const dynamoose = require('dynamoose');
+const awsKeys = require('../database/config');
 
 dynamoose.AWS.config.update({
-  accessKeyId: 'AKIAJFLA6GH7T72ODZYA',
-  secretAccessKey: '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',
+  accessKeyId: awsKeys.accessKeyId,
+  secretAccessKey: awsKeys.secretAccessKey,
   region: 'eu-west-2'
 });
 
