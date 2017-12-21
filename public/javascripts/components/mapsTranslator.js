@@ -1,4 +1,4 @@
-module.exports = {
+const mapsTranslator = {
     ovp: 'Overpass',
     cch: 'Cache',
     inf: 'Inferno',

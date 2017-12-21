@@ -8,11 +8,11 @@ var COINBASE_CLIENT_SECRET = coinbaseConfig.COINBASE_CLIENT_SECRET;
 module.exports = function(passport) {
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
-      done(null, user);
+        done(null, user);
     });
 
     passport.deserializeUser(function(obj, done) {
-      done(null, obj);
+        done(null, obj);
     });
     passport.use('coinbase-login', new CoinbaseStrategy({
     clientID: COINBASE_CLIENT_ID,
@@ -29,7 +29,15 @@ module.exports = function(passport) {
               // if no user is found, return the message
               if (!profile) return done(null, false);
               // all is well, return successful user
-              return done(null, profile);
+              return done(null, {
+                  _id: profile._id,
+                  coinBaseId: profile.coinBaseId,
+                  accessToken: accessToken,
+                  refreshToken: refreshToken,
+                  isAdmin: profile.isAdmin,
+                  statistics: profile.statistics,
+                  reg_date: profile.reg_date,
+              });
           });
         });
     }
