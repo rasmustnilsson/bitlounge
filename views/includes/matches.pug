@@ -7,7 +7,7 @@ div(id="matches")
 				h4.card-title {{ match.team1.name }} VS {{ match.team2.name }}
 				h4 Format: {{ match.format }}
 				a.btn.btn-warning(:href="'/match/' + match.id") Go to Match
-				ul(v-if="match.maps[0] != 'undefined'")
+				ul(v-if="match.maps[0] != undefined")
 					li(v-for="map in match.maps") {{ map }}
 				p(v-else) TBA
 					

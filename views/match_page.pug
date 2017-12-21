@@ -1,4 +1,17 @@
 extends layout
 
 block content
-    h1= id
+    div#match_wrapper
+        p {{ date }}
+        p {{ additionalInfo }}
+        p is live {{ live }}
+        p {{ team1 }}
+        ul
+            li(v-for='player in players.team1') {{ player.name }}
+        p {{ team2 }}
+        ul
+            li(v-for='player in players.team2')
+                a(v-bind:href='"/player/" + player.id') {{ player.name }}
+        p {{ streams }}
+    script const matchId = #{matchId};
+    script(src='/javascripts/components/matchPage.js')

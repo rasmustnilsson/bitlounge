@@ -1,4 +1,4 @@
 div.mt-1.nav.flex-column.nav-pills(role='tablist' aria-orientation='vertical' href='/')
-    a.nav-link(href='/' role='tab' aria-controls='v-pills-home' aria-selected='true' class={active: req.path == '/'}) Home
-    a.nav-link(href='/profile/'+req.user.username role='tab' aria-controls='v-pills-logout' aria-selected='false' class={active: req.path == ''}) Profile
+    a.nav-link(href='/' role='tab' aria-controls='v-pills-home' aria-selected='true' class={active: path == '/'}) Home
+    a.nav-link(href='/profile/'+user.id  role='tab' aria-controls='v-pills-logout' aria-selected='false' class={active: path == '/profile/:profileId'}) Profile
     a.nav-link(href='/logout' role='tab' aria-controls='v-pills-logout' aria-selected='false') logout

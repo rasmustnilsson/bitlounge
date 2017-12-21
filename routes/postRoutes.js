@@ -10,7 +10,12 @@ module.exports = function(app,passport,isLoggedIn) {
     })
     app.post('/getMatch/:matchId', function(req,res) {
         HLTV.getMatch({id: req.params.matchId}).then(match => {
-            res.send(match)
+            res.send(match);
+        })
+    })
+    app.post('/getPlayer/:playerId', function(req,res) {
+        HLTV.getPlayer({id: req.params.playerId}).then(player => {
+            res.send(player);
         })
     })
     app.post('/getAccounts', function(req,res) {
