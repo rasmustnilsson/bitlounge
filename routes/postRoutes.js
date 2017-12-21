@@ -1,5 +1,4 @@
 const db = require('../config/database/queries');
-const mapsTranslator = require('../config/mapsTranslator');
 const { HLTV } = require('hltv')
 const Client = require('coinbase').Client;
 
