@@ -1,7 +1,8 @@
 const CoinbaseStrategy = require('passport-coinbase').Strategy;
 const coinbaseConfig = require('./coinbase/config.js');
+const dynamoose = require('dynamoose');
+const User = require('./models/User');
 
-const User = require('./models/userModel');
 var COINBASE_CLIENT_ID = coinbaseConfig.COINBASE_CLIENT_ID;
 var COINBASE_CLIENT_SECRET = coinbaseConfig.COINBASE_CLIENT_SECRET;
 
@@ -21,24 +22,19 @@ module.exports = function(passport) {
     scope: ["user"]
     }, function(accessToken, refreshToken, profile, done) {
         process.nextTick(function () {
-          User.findOne({
-              'coinBaseId': profile.id
-          }, function(err, profile) {
-              // if there are any errors, return the error before anything else
-              if (err) return done(err);
-              // if no user is found, return the message
-              if (!profile) return done(null, false);
-              // all is well, return successful user
-              return done(null, {
-                  _id: profile._id,
-                  coinBaseId: profile.coinBaseId,
-                  accessToken: accessToken,
-                  refreshToken: refreshToken,
-                  isAdmin: profile.isAdmin,
-                  statistics: profile.statistics,
-                  reg_date: profile.reg_date,
-              });
-          });
+            User.get({id:profile.id}, (err,user) => {
+                if (err) return done(err);
+                // if no user is found, return the message
+                if (!user) return done(null, false);
+                return done(null, {
+                    id: user.id,
+                    accessToken: accessToken,
+                    refreshToken: refreshToken,
+                    isAdmin: user.isAdmin,
+                    statistics: user.statistics,
+                    reg_date: user.reg_date,
+                });
+            })
         });
     }
     ));
@@ -49,24 +45,24 @@ module.exports = function(passport) {
     scope: ["user"]
     }, function(accessToken, refreshToken, profile, done) {
         process.nextTick(function () {
-          User.findOne({
-              'coinBaseId': profile.id
-          }, function(err, user) {
-              // if there are any errors, return the error
-              if (err)
-                  return done(err);
-              // check to see if theres already a user with that username
-              if (user) {
-                  return done(null, false);
-              } else {
-                  let user = new User();
-                  user.coinBaseId = profile.id;
-                  user.save(function(err) {
-                      if (err) throw err;
-                      return done(null, profile);
-                  });
-              }
-          });
+            User.get({id: profile.id}, (err,user) => {
+                if(user) {
+                    return done(null, false);
+                } else {
+                    var user = new User({id: profile.id});
+                    user.save(function(err) {
+                        if(err) throw err;
+                        return done(null, {
+                            id: profile.id,
+                            accessToken: accessToken,
+                            refreshToken: refreshToken,
+                            isAdmin: profile.isAdmin,
+                            statistics: profile.statistics,
+                            reg_date: profile.reg_date,
+                        });
+                    })
+                }
+            })
         });
     }
     ));

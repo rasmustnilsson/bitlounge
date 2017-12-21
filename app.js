@@ -6,19 +6,11 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const session = require('express-session');
-const mongoose = require('mongoose');
-const database = require('./config/database/config');
 const app = express();
-
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-
-//connects to the database
-mongoose.Promise = global.Promise;
-mongoose.connect(database.url,database.options);
 require('./config/passport')(passport);
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));

@@ -1,6 +1,5 @@
 module.exports = {
-    url : '--insert-mongo-client-secret-here--"',
-    options: {
-        useMongoClient: true,
-    }
+    accessKeyId: '--insert-accesskey-here--',
+    accessKeyId: '--insert-secretAccesskey-here--',
+    region: 'eu-west-2',
 };
