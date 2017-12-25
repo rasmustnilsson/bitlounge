@@ -1,0 +1,12 @@
+nav.navbar.navbar-dark.bg-dark.navbar-expand-lg.mb-2
+    a.navbar-brand.text-color-cta(href='/') BitLounge
+    button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
+        span.navbar-toggler-icon
+    div.collapse.navbar-collapse#navbarSupportedContent
+        ul.navbar-nav.mr-auto
+            li.nav-item
+                a.nav-link(href='/profile/'+user.id class={active: path == '/profile/:profileId'}) Profile
+            li.nav-item
+                a.nav-link(href='/bets') Bets
+        form(action=user.id!=0 ? '/logout': href='/auth/coinbase' method='get')
+            button.btn.btn-warning(type='submit')= user.id!=0 ? 'Logout' : 'Login with Coinbase'

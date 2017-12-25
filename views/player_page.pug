@@ -3,7 +3,9 @@ extends layout
 block content
     div#player_wrapper
         p  {{ name }}
+        p  {{ ign }}
+        a(v-bind:href='"/team/"+team.id')  {{ team.name }}
+        p  {{ country.name }}, {{ country.code }}
         
-    script const playerId = #{playerId};
-    
+    script const playerId=#{pageId};const player=!{pageData};
     script(src='/javascripts/components/playerPage.js')

@@ -3,15 +3,19 @@ extends layout
 block content
     div#match_wrapper
         p {{ date }}
-        p {{ additionalInfo }}
-        p is live {{ live }}
-        p {{ team1 }}
+        p {{ additionalInfo }} 
+            span(v-if='live').badge.badge-primary live
+            span(v-else).badge.badge-secondary not live
+        h4
+            a(v-bind:href='"/team/"+team1.id') {{ team1.name }}
         ul
-            li(v-for='player in players.team1') {{ player.name }}
-        p {{ team2 }}
+            li(v-for='player in players.team1')
+                a(v-bind:href='"/player/" + player.id') {{ player.name }}
+        h4
+            a(v-bind:href='"/team/"+team2.id') {{ team2.name }}
         ul
             li(v-for='player in players.team2')
                 a(v-bind:href='"/player/" + player.id') {{ player.name }}
         p {{ streams }}
-    script const matchId = #{matchId};
+    script const matchId=#{pageId};const match=!{pageData}
     script(src='/javascripts/components/matchPage.js')

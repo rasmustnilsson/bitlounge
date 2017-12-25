@@ -5,13 +5,12 @@ header {
 	margin-bottom: 40px;
 	min-height: 64px;
 }
-body { 
+body {
 	margin: 0 auto;
 	background-color: #EEEEEE;
 	}
-h1 {
+body .navbar .text-color-cta, .text-color-cta {
 	color: orange;
-	float:left;
 }
 
 .card { margin-bottom: 15px;

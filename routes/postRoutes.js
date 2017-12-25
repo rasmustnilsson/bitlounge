@@ -28,7 +28,4 @@ module.exports = function(app,passport,isLoggedIn) {
             res.send(accounts);
         });
     })
-    app.post('/auth/coinbase',passport.authenticate('coinbase-login'));
-    app.post('/signup/coinbase',passport.authenticate('coinbase-signup'));
-
 }

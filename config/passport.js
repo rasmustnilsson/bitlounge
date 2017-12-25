@@ -24,31 +24,8 @@ module.exports = function(passport) {
         process.nextTick(function () {
             User.get({id:profile.id}, (err,user) => {
                 if (err) return done(err);
-                // if no user is found, return the message
-                if (!user) return done(null, false);
-                return done(null, {
-                    id: user.id,
-                    accessToken: accessToken,
-                    refreshToken: refreshToken,
-                    isAdmin: user.isAdmin,
-                    statistics: user.statistics,
-                    reg_date: user.reg_date,
-                });
-            })
-        });
-    }
-    ));
-    passport.use('coinbase-signup', new CoinbaseStrategy({
-    clientID: COINBASE_CLIENT_ID,
-    clientSecret: COINBASE_CLIENT_SECRET,
-    callbackURL: "http://localhost/signup/coinbase/callback",
-    scope: ["user"]
-    }, function(accessToken, refreshToken, profile, done) {
-        process.nextTick(function () {
-            User.get({id: profile.id}, (err,user) => {
-                if(user) {
-                    return done(null, false);
-                } else {
+                // if no user is found, creates new user
+                if (!user) {
                     var user = new User({id: profile.id});
                     user.save(function(err) {
                         if(err) throw err;
@@ -61,6 +38,15 @@ module.exports = function(passport) {
                             reg_date: profile.reg_date,
                         });
                     })
+                } else {
+                    return done(null, {
+                        id: user.id,
+                        accessToken: accessToken,
+                        refreshToken: refreshToken,
+                        isAdmin: user.isAdmin,
+                        statistics: user.statistics,
+                        reg_date: user.reg_date,
+                    });
                 }
             })
         });

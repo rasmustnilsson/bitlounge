@@ -1,0 +1,10 @@
+extends layout
+
+block content
+    div#team_wrapper
+        p  {{ name }}
+        p(v-for='player in players')
+            a( v-bind:href='"/player/" + player.id') {{ player.name }}
+        
+    script const teamId=#{pageId};const team=!{pageData};
+    script(src='/javascripts/components/teamPage.js')

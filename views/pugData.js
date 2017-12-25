@@ -1,18 +1,19 @@
 module.exports = {
-    get: function(req) {
+    get: function(req, data) {
         let J = {
             signuperror: req.query.signuperror,
             loginerror: req.query.loginerror,
             path: req.route.path,
         };
-        if(req.route.path = '/match/:matchId') {
-            J.matchId = req.params.matchId;
-        }
-        if(req.route.path = '/player/:playerId') {
-            J.playerId = req.params.playerId;
+        if(data) {
+            J.pageData = data.pageData;
+            J.pageId = data.pageId;
         }
         if(req.user) {
             J.user = req.user;
+        } else {
+            J.user = {};
+            J.user.id = 0;
         }
         return J;
     }
