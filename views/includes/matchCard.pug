@@ -1,0 +1,19 @@
+div.card.text-center
+    div.card-header.d-flex.justify-content-between.align-items-center
+        span {{ getDate() }}
+        h2 {{ format }}
+        h2
+            span(v-if='live').badge.badge-primary live
+            span(v-else).badge.badge-secondary not live
+    div.card-body
+        div.row.justify-content-center
+            div.col-auto.d-flex.flex-row.align-items-center
+                h4 {{ team1.name }}
+                img.img-fluid.team-logo(v-bind:src='"https://static.hltv.org//images/team/logo/" + team1.id')
+                span 50%
+            div.col-auto.d-flex.flex-row.align-items-center
+                h4 VS
+            div.col-auto.d-flex.flex-row.align-items-center
+                span 50%
+                img.img-fluid.team-logo(v-bind:src='"https://static.hltv.org//images/team/logo/" + team2.id')
+                h4 {{ team2.name }}

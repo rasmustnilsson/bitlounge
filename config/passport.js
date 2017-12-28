@@ -19,14 +19,18 @@ module.exports = function(passport) {
     clientID: COINBASE_CLIENT_ID,
     clientSecret: COINBASE_CLIENT_SECRET,
     callbackURL: "http://localhost/auth/coinbase/callback",
-    scope: ["user"]
+    scope: ["user"],
     }, function(accessToken, refreshToken, profile, done) {
         process.nextTick(function () {
             User.get({id:profile.id}, (err,user) => {
                 if (err) return done(err);
                 // if no user is found, creates new user
                 if (!user) {
-                    var user = new User({id: profile.id});
+                    var user = new User({
+                        id: profile.id,
+                        name: profile.displayName,
+                        displayName: profile.displayName,
+                    });
                     user.save(function(err) {
                         if(err) throw err;
                         return done(null, {
@@ -35,6 +39,8 @@ module.exports = function(passport) {
                             refreshToken: refreshToken,
                             isAdmin: profile.isAdmin,
                             statistics: profile.statistics,
+                            name: profile.displayName,
+                            displayName: profile.displayName,
                             reg_date: profile.reg_date,
                         });
                     })
@@ -43,6 +49,8 @@ module.exports = function(passport) {
                         id: user.id,
                         accessToken: accessToken,
                         refreshToken: refreshToken,
+                        name: user.name,
+                        displayName: user.displayName,
                         isAdmin: user.isAdmin,
                         statistics: user.statistics,
                         reg_date: user.reg_date,

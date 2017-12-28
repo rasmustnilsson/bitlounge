@@ -5,7 +5,14 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const session = require('express-session');
+const session = require('express-session')({ // session secret
+    resave: true,
+    secret:'ilovescotchscotchyscotchscotch',
+    saveUninitialized: true,
+});
+const sharedsession = require("express-socket.io-session");
+const io = require('socket.io')();
+
 const app = express();
 
 // view engine setup
@@ -19,13 +26,13 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ // session secret
-    secret:'ilovescotchscotchyscotchscotch',
-    resave: false,
-    saveUninitialized: false,
-}));
+app.use(session);
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
+
+io.use(sharedsession(session));
+io.listen(3000);
+require('./config/socket/socketEvents.js')(io);
 
 //routes
 require('./routes/index.js')(app,passport);
@@ -45,7 +52,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', require('./views/pugData.js').get(null));
 });
 
 module.exports = app;

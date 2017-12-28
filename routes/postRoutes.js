@@ -18,10 +18,15 @@ module.exports = function(app,passport,isLoggedIn) {
             res.send(player);
         })
     })
-    app.post('/getAccounts', function(req,res) {
+    app.post('/makeBet',function(req,res) {
+        console.log(req.user);
+        res.send('works');
+    })
+    app.get('/getAccounts',isLoggedIn,function(req,res) {
         const user = req.session.passport.user;
-        var client = new Client({'apikey': user.accessToken, 'refreshToken': user.refreshToken});
+        var client = new Client({'accessToken': user.accessToken, 'refreshToken': user.refreshToken, "scope": ["wallet:accounts:read"]});
         client.getAccounts({}, function(err, accounts) {
+            if(err) return console.log(err);
             accounts.forEach(function(acct) {
                 console.log('my bal: ' + acct.balance.amount + ' for ' + acct.name);
             });

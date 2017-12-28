@@ -1,0 +1,5 @@
+div.card
+    div.card-header
+        h2 Latests bets
+    ul.list-group.list-group-flush
+        li.list-group-item(v-for='bet in bets') {{ bet.name }}: {{ bet.amount }}

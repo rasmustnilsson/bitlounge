@@ -12,21 +12,16 @@ body {
 body .navbar .text-color-cta, .text-color-cta {
 	color: orange;
 }
-
-.card { margin-bottom: 15px;
-	color: white;}
-
 .matches_wrapper{
 	margin-left: 10%;
 	margin-right: 10%;
 }
-
+.row {
+    margin-right: 0px;
+	margin-left: 0px;
+}
 .radio_button {
 	margin: 0 auto;
-}
-.row {
-	    margin-right: 0px;
-		margin-left: 0px;
 }
 .form{
 	float:right;
@@ -41,11 +36,9 @@ body .navbar .text-color-cta, .text-color-cta {
 .btn-warning {
 	margin: 0 auto;
 }
-.bitcoin {
-	height: 64px;
-	float:left;
-	padding-left: 10px;
-}
 .imageFit{
 	background-size:100%;
+}
+.team-logo {
+	max-height: 60px;
 }

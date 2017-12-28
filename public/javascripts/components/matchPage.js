@@ -7,6 +7,7 @@ var matchPage = new Vue({
         date: match.date,
         format: match.format,
         headToHead: match.headToHead,
+        bets: match.betData.bets,
         vetoes: match.vetoes,
         highlightedPlayers: match.highlightedPlayers,
         maps: match.maps,
@@ -15,8 +16,17 @@ var matchPage = new Vue({
         live: match.live,
         players: match.players,
         streams: match.streams,
+        betAmount: '',
     },
     methods: {
-
+        makeBet: function () {
+            socket.emit('makeBet', this.id, this.betAmount);
+        },
+        getDate: function () {
+            if(this.live) {
+                return moment(this.date).fromNow();
+            }
+            return moment(this.date).format('MMMM Do, h:mm:ss a');
+        },
     }
 })

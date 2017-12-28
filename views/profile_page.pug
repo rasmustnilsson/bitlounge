@@ -2,6 +2,8 @@ extends layout
 
 block content
     // use the statistics object ex "p= user.statistics.wins" or "bar#{user.statistics.activeBets}foo"
+    h6 username: #{user.displayName}
+    h6 name: #{user.name}
     ul
         li= 'Wins: ' + user.statistics.wins
         li= 'Losses: ' + user.statistics.losses

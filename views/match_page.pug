@@ -1,11 +1,15 @@
 extends layout
 
+block headerScripts
+    script(src="/javascripts/moment.min.js")
+    script(src='/javascripts/socket.io.min.js')
 block content
     div#match_wrapper
-        p {{ date }}
-        p {{ additionalInfo }} 
-            span(v-if='live').badge.badge-primary live
-            span(v-else).badge.badge-secondary not live
+        div.row
+            div.col-lg-8
+                include includes/matchCard.pug
+            div.col
+                include includes/betsCard.pug
         h4
             a(v-bind:href='"/team/"+team1.id') {{ team1.name }}
         ul
@@ -17,5 +21,13 @@ block content
             li(v-for='player in players.team2')
                 a(v-bind:href='"/player/" + player.id') {{ player.name }}
         p {{ streams }}
-    script const matchId=#{pageId};const match=!{pageData}
+        if user.id != 0
+            h4 make bet
+            form(v-on:submit.prevent="makeBet()")
+                span {{ team1.name }}
+                input(type='number' v-model='betAmount' placeholder='$100')
+                input(type='submit' value='submit bet')
+                
+    script const matchId=#{pageId};const match=!{pageData};
+    script(src='/javascripts/components/socket_match.js')
     script(src='/javascripts/components/matchPage.js')
