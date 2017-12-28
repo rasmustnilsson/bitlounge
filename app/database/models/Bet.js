@@ -1,4 +1,4 @@
-const dynamoose = require('../database/config');
+const dynamoose = require('../../../config/database/config');
 
 const betSchema =  {
     id: String,

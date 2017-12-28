@@ -21,6 +21,7 @@ var matchPage = new Vue({
     methods: {
         makeBet: function () {
             socket.emit('makeBet', this.id, this.betAmount);
+            this.betAmount = '';
         },
         getDate: function () {
             if(this.live) {

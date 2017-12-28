@@ -1,10 +1,16 @@
 const mapsTranslator = {
     ovp: 'Overpass',
+    Overpass: 'Overpass',
     cch: 'Cache',
+    Cache: 'Cache',
     inf: 'Inferno',
+    Inferno: 'Inferno',
     cbl: 'Cobblestone',
+    Cobblestone: 'Cobblestone',
     mrg: 'Mirage',
+    Mirage: 'Mirage',
     trn: 'Train',
+    Train: 'Train',
     Nuke: 'Nuke',
     tba: 'undefined',
 }

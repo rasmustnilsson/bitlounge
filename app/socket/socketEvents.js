@@ -5,12 +5,12 @@ module.exports = function(io) {
         socket.on('matchId', function(id) {
             socket.join(id);
         })
-        if(socket.handshake.session.passport) { // if user is signed in
+        if(socket.handshake.session) { // if user is signed in
             socket.on('makeBet', function(id, amount) {
-                db.match.makeBet(socket.handshake.session.passport.user.displayName,id,parseInt(amount))
+                db.match.makeBet(socket.handshake.session.user.displayName,id,parseInt(amount))
                 .then(() => {
                     socket.nsp.to(id).emit('newBet', {
-                        name: socket.handshake.session.passport.user.displayName,
+                        name: socket.handshake.session.user.displayName,
                         amount: amount,
                     })
                 })

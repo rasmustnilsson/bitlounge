@@ -1,5 +1,5 @@
 const { HLTV } = require('hltv');
-const Bet = require('../models/Bet');
+const Bet = require('./models/Bet');
 const async = require('async');
 
 const J = {
@@ -24,6 +24,7 @@ const J = {
                         })
                     }
                 ], (err) => {
+                    if(err) throw err;
                     match.betData = betData;
                     resolve(match);
                 })

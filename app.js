@@ -4,7 +4,6 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const passport = require('passport');
 const session = require('express-session')({ // session secret
     resave: true,
     secret:'ilovescotchscotchyscotchscotch',
@@ -12,13 +11,12 @@ const session = require('express-session')({ // session secret
 });
 const sharedsession = require("express-socket.io-session");
 const io = require('socket.io')();
-
+const matches = require('./app/matches.js');
 const app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
-require('./config/passport')(passport);
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 //app.use(logger('dev'));
@@ -27,16 +25,17 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session);
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
 
 io.use(sharedsession(session));
 io.listen(3000);
-require('./config/socket/socketEvents.js')(io);
+require('./app/socket/socketEvents.js')(io);
 
 //routes
-require('./routes/index.js')(app,passport);
-
+require('./routes/index.js')(app);
+process.on('unhandledRejection', (reason, p) => {
+  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+  // application specific logging, throwing an error, or other logic here
+});
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
