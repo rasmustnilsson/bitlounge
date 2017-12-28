@@ -20,7 +20,7 @@ module.exports = function(app) {
             code: req.query.code,
             client_id: COINBASE_CLIENT_ID,
             client_secret: COINBASE_CLIENT_SECRET,
-            redirect_uri: 'http://localhost/auth/coinbase/callback'
+            redirect_uri: COINBASE_AUTHENTICATION_CALLBACK,
         }).then(response => {
             const client = new Client({'accessToken': response.data.access_token, 'refreshToken': response.data.refresh_token});
             client.getCurrentUser((err, user) => {
