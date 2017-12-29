@@ -8,5 +8,5 @@ nav.navbar.navbar-dark.bg-dark.navbar-expand-lg.mb-2
                 a.nav-link(href='/profile/'+user.id class={active: path == '/profile/:profileId'}) Profile
             li.nav-item
                 a.nav-link(href='/bets') Bets
-        form(action=user.id!=-1 ? '/logout': href='/auth/coinbase' method='get')
-            button.btn.btn-warning(type='submit')= user.id!=-1 ? 'Logout' : 'Login with Coinbase'
+        form(action=isLoggedIn ? '/logout': href='/auth/coinbase' method='get')
+            button.btn.btn-warning(type='submit')= isLoggedIn ? 'Logout' : 'Login with Coinbase'

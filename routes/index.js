@@ -32,12 +32,8 @@ module.exports = function(app) {
                             displayName: user.name,
                         });
                         profile.save(() => {
-                            req.session.user = {
-                                id: user.id,
-                                name: user.name,
-                                displayName: user.name,
-                                client: client,
-                            }
+                            req.session.user = profile;
+                            req.session.user.client = {'accessToken': response.data.access_token, 'refreshToken': response.data.refresh_token};
                             req.session.save(() => {
                                 res.redirect('/');
                             })

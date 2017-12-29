@@ -1,19 +1,11 @@
 const pugData = require('./../views/pugData.js');
-const { HLTV } = require('hltv')
-const Client = require('coinbase').Client;
+const { HLTV } = require('hltv');
 const db = require('../app/database/queries');
 var stringify = require('js-stringify');
 const axios = require('axios');
 
 module.exports = function(app,login,isLoggedIn,authenticate) {
     app.get('/', function(req, res, next) {
-        if(!req.session.user) return res.render('front_page', pugData.get(req));
-        const client = new Client({'accessToken': req.session.user.client.accessToken, 'refreshToken': req.session.user.client.refreshToken});
-        client.getAccounts({}, function(err, accounts) {
-            accounts.forEach(function(acct) {
-                console.log('my bal: ' + acct.balance.amount + ' for ' + acct.name);
-            });
-        });
         res.render('front_page', pugData.get(req));
     });
     app.get('/logout', function(req, res, next) {

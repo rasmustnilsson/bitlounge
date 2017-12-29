@@ -7,8 +7,9 @@ var matchPage = new Vue({
         date: match.date,
         format: match.format,
         headToHead: match.headToHead,
-        bets: match.betData.bets,
+        bets: match.bets,
         vetoes: match.vetoes,
+        isLoggedIn: isLoggedIn,
         highlightedPlayers: match.highlightedPlayers,
         maps: match.maps,
         hasScoreBot: match.hasScoreBot,
@@ -20,6 +21,7 @@ var matchPage = new Vue({
     },
     methods: {
         makeBet: function () {
+            if(this.betAmount == '') return console.log('need to input number');
             socket.emit('makeBet', this.id, this.betAmount);
             this.betAmount = '';
         },

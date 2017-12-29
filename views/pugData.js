@@ -1,6 +1,6 @@
 module.exports = {
     get: function(req, data) {
-        if(!req) return user = {id: -1 };
+        if(!req) return user = {isLoggedIn: false };
         let J = {
             path: req.route.path,
         };
@@ -10,9 +10,10 @@ module.exports = {
         }
         if(req.session.user) {
             J.user = req.session.user;
+            J.isLoggedIn = true;
         } else {
             J.user = {};
-            J.user.id = -1;
+            J.isLoggedIn = false;
         }
         return J;
     }

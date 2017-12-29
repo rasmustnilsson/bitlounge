@@ -7,12 +7,14 @@ module.exports = function(io) {
         })
         if(socket.handshake.session) { // if user is signed in
             socket.on('makeBet', function(id, amount) {
-                db.match.makeBet(socket.handshake.session.user.displayName,id,parseInt(amount))
-                .then(() => {
+                const user = socket.handshake.session.user;
+                db.match.makeBet(user,id,parseInt(amount)).then(() => {
                     socket.nsp.to(id).emit('newBet', {
-                        name: socket.handshake.session.user.displayName,
+                        name: user.displayName,
                         amount: amount,
-                    })
+                    });
+                },() => {
+                    console.log(displayName + ' tried to bet on active game');
                 })
             })
         }

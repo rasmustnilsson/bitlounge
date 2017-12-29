@@ -15,11 +15,14 @@ function loadMatches() {
                 // game is not over
                 if(activeMatch.id == match.id) break activeMatchesIn;
                 // game is over
-                if(i == response.length - 1) console.log('game: ' + activeMatch.id + ' is over!');
+                if(i == response.length - 1) {
+                    console.log('game: ' + activeMatch.id + ' is over!');
+                }
             }
         }
         // reloads all the matches
-        matches,active = [];
+        matches = [];
+        active = [];
         for(match in response) {
             // if game is active
             if(response[match].live) active.push(response[match]);
@@ -36,5 +39,11 @@ setInterval(function(){
 module.exports = {
     getMatches: function () {
         return matches;
+    },
+    matchIsActive: function (id) {
+        for(let match of active) {
+            if(match.id == id) return true;
+        }
+        return false;
     },
 }
