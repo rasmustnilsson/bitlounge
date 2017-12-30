@@ -7,6 +7,6 @@ nav.navbar.navbar-dark.bg-dark.navbar-expand-lg.mb-2
             li.nav-item
                 a.nav-link(href='/profile/'+user.id class={active: path == '/profile/:profileId'}) Profile
             li.nav-item
-                a.nav-link(href='/bets') Bets
+                a.nav-link(href='/bets/'+user.id class={active: path == '/bets/:pageId'}) My bets
         form(action=isLoggedIn ? '/logout': href='/auth/coinbase' method='get')
             button.btn.btn-warning(type='submit')= isLoggedIn ? 'Logout' : 'Login with Coinbase'

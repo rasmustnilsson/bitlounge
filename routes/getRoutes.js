@@ -16,8 +16,13 @@ module.exports = function(app,login,isLoggedIn,authenticate) {
     app.get('/profile/:profileId',isLoggedIn, function(req, res, next) {
         res.render('profile_page', pugData.get(req));
     });
-    app.get('/bets', isLoggedIn, function(req,res) {
-        res.redirect('/');
+    app.get('/bets/:pageId', isLoggedIn, function(req,res) {
+        db.user.getAllBets(req.params.pageId).then((bets) => {
+            res.render('bets_page', pugData.get(req, {
+                pageData: stringify(bets),
+                pageId: req.params.pageId,
+            }));
+        })
     })
     app.get('/player/:playerId', function(req,res) {
         HLTV.getPlayer({id: req.params.playerId}).then(player => {
@@ -41,7 +46,7 @@ module.exports = function(app,login,isLoggedIn,authenticate) {
                 pageData: stringify(match),
                 pageId: req.params.matchId,
             }));
-        })
+        });
     }));
     app.get('/auth/coinbase', authenticate)
     app.get('/auth/coinbase/callback',login);

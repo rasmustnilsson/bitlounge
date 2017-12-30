@@ -12,6 +12,7 @@ const userSchema =  {
         wins: 0,
         losses: 0,
     }},
+    bets: { type: Array, default: [] },
 };
 
 module.exports = dynamoose.model('users', userSchema, {

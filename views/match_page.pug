@@ -32,7 +32,8 @@ block content
         ul
             li(v-for='player in players.team2')
                 a(v-bind:href='"/player/" + player.id') {{ player.name }}
-                
+
+block footerScripts
     script const matchId=#{pageId};const match=!{pageData};
     script(src='/javascripts/components/socket_match.js')
     script(src='/javascripts/components/matchPage.js')

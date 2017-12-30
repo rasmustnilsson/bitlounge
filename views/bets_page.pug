@@ -1,0 +1,21 @@
+extends layout
+
+block content
+    div#betsPage
+        div.card.text-center
+            div.card-header
+                ul.nav.nav-tabs.card-header-tabs
+                    li.nav-item
+                        button.nav-link.btn.btn-link(v-on:click='filter="active"' v-bind:class='{"active": filter=="active"}') Active
+                    li.nav-item
+                        button.nav-link.btn.btn-link(v-on:click='filter="finished"' v-bind:class='{"active": filter=="finished"}') Finished
+                    li.nav-item
+                        button.nav-link.btn.btn-link(v-on:click='filter=-1' v-bind:class='{"active": filter==-1}') All
+            div.card-body
+                ul.list-group.list-group-lush(v-for='bet in bets')
+                    li.list-group-item(v-if="show(bet.active)") amount: {{ bet.amount }}
+                        a(v-bind:href='"/match/" + bet.id') Go to game
+
+block footerScripts
+    script const bets=!{pageData};
+    script(src='/javascripts/components/betsPage.js')

@@ -7,5 +7,6 @@ block content
         a(v-bind:href='"/team/"+team.id')  {{ team.name }}
         p  {{ country.name }}, {{ country.code }}
         
+block footerScripts
     script const playerId=#{pageId};const player=!{pageData};
     script(src='/javascripts/components/playerPage.js')

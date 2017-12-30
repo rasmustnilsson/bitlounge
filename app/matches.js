@@ -4,7 +4,7 @@ let matches = []; // stores all the games, is passed to the browser
 let active = []; // stores only the active games
 
 /**
- * if match in active is not in HLTV.getMatches response => match is over
+ * if a match in activeArray is not in HLTV.getMatches response => match is over
  */
 
 function loadMatches() {

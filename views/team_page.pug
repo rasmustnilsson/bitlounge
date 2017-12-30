@@ -5,6 +5,7 @@ block content
         p  {{ name }}
         p(v-for='player in players')
             a( v-bind:href='"/player/" + player.id') {{ player.name }}
-        
+
+block footerScripts
     script const teamId=#{pageId};const team=!{pageData};
     script(src='/javascripts/components/teamPage.js')

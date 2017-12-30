@@ -48,24 +48,38 @@ const J = {
                             resolve(err,match);
                         })
                     }
-                    J.statistics.newBet(id,user.id,amount,date);
+                    J.user.newBet(id,user.id,amount,date);
                 })
             })
         },
     },
-    statistics: {
+    user: {
         newBet: function(id,user,amount,date) {
+            console.log(date);
             return new Promise((resolve,reject) => {
                 User.get(user).then((user) => {
                     user.statistics.totalBets += 1;
                     user.statistics.activeBets += 1;
+                    user.bets.push({
+                        id:id,
+                        amount: amount,
+                        date: date,
+                        active: true,
+                    });
                     user.save((err,user) => {
                         resolve(user);
                     });
                 });
             });
-        }
-    }
+        },
+        getAllBets: function (id) {
+            return new Promise((resolve,reject) => {
+                User.get(id).then((user) => {
+                    resolve(user.bets);
+                })
+            })
+        },
+    },
 }
 
 module.exports = J;
