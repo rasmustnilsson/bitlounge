@@ -22,7 +22,7 @@ const J = {
                             callback();
                         })
                     }
-                ], (err) => {
+                ], (err) => { // when async is done
                     if(err) throw err;
                     match.bets = betData;
                     resolve(match);

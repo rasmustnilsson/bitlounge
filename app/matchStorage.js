@@ -55,9 +55,7 @@ const J = {
         }
     },
     isActive: function(id) {
-        for(let match of active) {
-            if(match.id == id) return true;
-        }
+        for(let match of active) if(match.id == id) return true;
         return false;
     },
 }

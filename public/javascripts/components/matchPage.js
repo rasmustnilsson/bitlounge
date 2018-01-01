@@ -35,5 +35,31 @@ var matchPage = new Vue({
             }
             return moment(this.date).format('MMMM Do, h:mm:ss a');
         },
+        getHeadToHead: function() {
+            if(this.headToHead.length == 0) return [];
+            let eventCounter = 0;
+            let events = [{
+                event: this.headToHead[0].event,
+                date: moment(this.headToHead[0].date).fromNow(),
+                team1: this.headToHead[0].winner.id == this.team1.id ? 1:0,
+                team2: this.headToHead[0].winner.id == this.team2.id ? 1:0,
+            }];
+            for(let i = 1; i < this.headToHead.length; i++) {
+                let game = this.headToHead[i];
+                if(events[eventCounter].event.id == game.event.id) {
+                    if(game.winner.id == this.team1.id) events[eventCounter].team1 += 1;
+                    else if(game.winner.id == this.team2.id) events[eventCounter].team2 += 1;
+                    continue;
+                }
+                eventCounter++;
+                events.push({
+                    event: this.headToHead[i].event,
+                    date: moment(this.headToHead[i].date).fromNow(),
+                    team1: this.headToHead[i].winner.id == this.team1.id ? 1:0,
+                    team2: this.headToHead[i].winner.id == this.team2.id ? 1:0,
+                });
+            }
+            return events;
+        },
     }
 })
