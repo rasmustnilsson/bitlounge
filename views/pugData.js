@@ -1,7 +1,16 @@
+let scripts = {
+    vue: 'vue.js',
+};
+
+if(process.env.NODE_ENV) {
+    scripts.vue = 'vue.min.js';
+}
+
 module.exports = {
     get: function(req, data) {
         if(!req) return user = {isLoggedIn: false };
         let J = {
+            vue: scripts.vue,
             path: req.route.path,
         };
         if(data) {

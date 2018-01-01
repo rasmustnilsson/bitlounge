@@ -9,6 +9,7 @@
     "axios": "^0.17.1",
     "body-parser": "~1.18.2",
     "coinbase": "^2.0.6",
+    "compression": "^1.7.1",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
     "dynamoose": "^0.8.6",

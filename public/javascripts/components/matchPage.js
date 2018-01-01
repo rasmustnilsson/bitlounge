@@ -22,17 +22,15 @@ var matchPage = new Vue({
     },
     methods: {
         makeBet: function () {
-            if(this.betAmount == '' || this.pickedTeam == '') return console.log('need to input number');
+            if(this.betAmount == '' || this.pickedTeam == '') return console.log('need to input number and a picked team');
             socket.emit('makeBet', this.id, this.pickedTeam, this.betAmount);
             this.betAmount = '';
         },
         selectTeam: function(team) {
             this.pickedTeam = team;
         },
-        getDate: function () {
-            if(this.live) {
-                return moment(this.date).fromNow();
-            }
+        getDate: function() {
+            if(this.live) return moment(this.date).fromNow();
             return moment(this.date).format('MMMM Do, h:mm:ss a');
         },
         getHeadToHead: function() {
@@ -53,10 +51,10 @@ var matchPage = new Vue({
                 }
                 eventCounter++;
                 events.push({
-                    event: this.headToHead[i].event,
-                    date: moment(this.headToHead[i].date).fromNow(),
-                    team1: this.headToHead[i].winner.id == this.team1.id ? 1:0,
-                    team2: this.headToHead[i].winner.id == this.team2.id ? 1:0,
+                    event: game.event,
+                    date: moment(game.date).fromNow(),
+                    team1: game.winner.id == this.team1.id ? 1:0,
+                    team2: game.winner.id == this.team2.id ? 1:0,
                 });
             }
             return events;
