@@ -11,7 +11,7 @@ const session = require('express-session')({ // session secret
 });
 const sharedsession = require("express-socket.io-session");
 const io = require('socket.io')();
-const matches = require('./app/matches.js');
+const matches = require('./app/matchStorage.js');
 const app = express();
 
 // view engine setup

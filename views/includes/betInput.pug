@@ -1,0 +1,13 @@
+div.card(v-if='live')
+    div.card-body You cannot bet on active games!
+div.card(v-else-if='isLoggedIn')
+    div.card-header
+        h4 make bet
+        form(v-on:submit.prevent="makeBet()")
+            div.btn-group.btn-group-toggle
+                button.btn(type='button' v-bind:class='[pickedTeam == "team1" ? "btn-primary": "btn-secondary"]' v-on:click='selectTeam("team1")') {{ team1.name }}
+                button.btn(type='button' v-bind:class='[pickedTeam == "team2" ? "btn-primary": "btn-secondary"]' v-on:click='selectTeam("team2")') {{ team2.name }}
+            input(type='number' v-model='betAmount' placeholder='$100')
+            input(type='submit' value='submit bet')
+div.card(v-else)
+    div.card-body You have to be logged in to bet!

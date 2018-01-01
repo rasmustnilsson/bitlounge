@@ -1,6 +1,6 @@
 const dynamoose = require('../../../config/database/config');
 
-const userSchema =  {
+const userSchema = new dynamoose.Schema({
     id: String,
     name: String,
     displayName: String,
@@ -13,7 +13,34 @@ const userSchema =  {
         losses: 0,
     }},
     bets: { type: Array, default: [] },
-};
+});
+
+userSchema.methods.newBet = function(id,bet) {
+    this.statistics.totalBets += 1;
+    this.statistics.activeBets += 1;
+    this.bets.push({
+        id:id,
+        amount: bet.amount,
+        date: bet.date,
+        team: bet.team,
+        active: true,
+    });
+}
+userSchema.methods.matchFinished = function(match) {
+    for(let index in this.bets) {
+        if(match.id == this.bets[index].id) {
+            this.bets[index].active = false;
+            this.statistics.activeBets -= 1;
+            if(match.winnerTeam.id == this.bets[index].team.id) {
+                this.statistics.wins += 1;
+                this.bets[index].won = true;
+            } else {
+                this.statistics.losses += 1;
+                this.bets[index].won = false;
+            }
+        }
+    }
+}
 
 module.exports = dynamoose.model('users', userSchema, {
     create: true, // Create table in DB, if it does not exist,

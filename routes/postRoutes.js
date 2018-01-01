@@ -1,7 +1,7 @@
 const db = require('../app/database/queries');
 const { HLTV } = require('hltv')
 const Client = require('coinbase').Client;
-const matches = require('../app/matches.js');
+const matches = require('../app/matchStorage.js');
 
 module.exports = function(app) {
     app.post('/getMatches', function(req,res,next) {

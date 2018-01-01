@@ -10,28 +10,19 @@ block content
                 include includes/matchCard.pug
                 div(v-if='streams.length != 0').embed-responsive.embed-responsive-16by9
                     iframe.embed-responsive-item(v-bind:src='streams[0].link' allowfullscreen)
+                h4
+                    a(v-bind:href='"/team/"+team1.id') {{ team1.name }}
+                ul
+                    li(v-for='player in players.team1')
+                        a(v-bind:href='"/player/" + player.id') {{ player.name }}
+                h4
+                    a(v-bind:href='"/team/"+team2.id') {{ team2.name }}
+                ul
+                    li(v-for='player in players.team2')
+                        a(v-bind:href='"/player/" + player.id') {{ player.name }}
             div.col
-                div.card(v-if='live')
-                    div.card-body You cannot bet on active games!
-                div.card(v-else-if='isLoggedIn')
-                    div.card-header
-                        h4 make bet
-                        form(v-on:submit.prevent="makeBet()")
-                            input(type='number' v-model='betAmount' placeholder='$100')
-                            input(type='submit' value='submit bet')
-                div.card(v-else)
-                    div.card-body You have to be logged in to bet!
+                include includes/betInput.pug
                 include includes/betsCard.pug
-        h4
-            a(v-bind:href='"/team/"+team1.id') {{ team1.name }}
-        ul
-            li(v-for='player in players.team1')
-                a(v-bind:href='"/player/" + player.id') {{ player.name }}
-        h4
-            a(v-bind:href='"/team/"+team2.id') {{ team2.name }}
-        ul
-            li(v-for='player in players.team2')
-                a(v-bind:href='"/player/" + player.id') {{ player.name }}
 
 block footerScripts
     script const matchId=#{pageId};const match=!{pageData};

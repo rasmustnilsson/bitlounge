@@ -1,4 +1,6 @@
 const { HLTV } = require('hltv');
+const Match = require('./database/models/Match');
+const storageQueries = require('./database/storageQueries');
 
 let matches = []; // stores all the games, is passed to the browser
 let active = []; // stores only the active games
@@ -16,7 +18,13 @@ function loadMatches() {
                 if(activeMatch.id == match.id) break activeMatchesIn;
                 // game is over
                 if(i == response.length - 1) {
-                    console.log('game: ' + activeMatch.id + ' is over!');
+                    HLTV.getMatch({id:activeMatch.id}).then((match) => {
+                        // if the game cant be found
+                        if(!match || !match.winnerTeam) return;
+                        match.id = id; // active match id
+                        console.log('game: ' + match.id + ' is over!');
+                        storageQueries.matchFinished(match);
+                    })
                 }
             }
         }
@@ -30,20 +38,27 @@ function loadMatches() {
         }
     });
 }
-
 loadMatches();
-setInterval(function(){
+setInterval(function(){ // updates matches every 10 seconds
     loadMatches();
-}, 1000 * 30);
+}, 1000 * 10);
 
-module.exports = {
-    getMatches: function () {
+const J = {
+    getMatches: function() {
         return matches;
     },
-    matchIsActive: function (id) {
+    getTeam: function(id,team) {
+        for(let match of matches) {
+            if(match.id == id) {
+                return match[team];
+            }
+        }
+    },
+    isActive: function(id) {
         for(let match of active) {
             if(match.id == id) return true;
         }
         return false;
     },
 }
+module.exports = J;

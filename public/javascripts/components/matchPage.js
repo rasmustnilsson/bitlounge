@@ -12,18 +12,22 @@ var matchPage = new Vue({
         isLoggedIn: isLoggedIn,
         highlightedPlayers: match.highlightedPlayers,
         maps: match.maps,
-        hasScoreBot: match.hasScoreBot,
+        hasScoreBot: match.hasScorebot,
         additionalInfo: match.additionalInfo,
         live: match.live,
         players: match.players,
         streams: match.streams,
         betAmount: '',
+        pickedTeam: '',
     },
     methods: {
         makeBet: function () {
-            if(this.betAmount == '') return console.log('need to input number');
-            socket.emit('makeBet', this.id, this.betAmount);
+            if(this.betAmount == '' || this.pickedTeam == '') return console.log('need to input number');
+            socket.emit('makeBet', this.id, this.pickedTeam, this.betAmount);
             this.betAmount = '';
+        },
+        selectTeam: function(team) {
+            this.pickedTeam = team;
         },
         getDate: function () {
             if(this.live) {

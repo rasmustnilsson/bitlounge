@@ -5,16 +5,17 @@ module.exports = function(io) {
         socket.on('matchId', function(id) {
             socket.join(id);
         })
-        if(socket.handshake.session) { // if user is signed in
-            socket.on('makeBet', function(id, amount) {
-                const user = socket.handshake.session.user;
-                db.match.makeBet(user,id,parseInt(amount)).then(() => {
+        if(socket.handshake.session.user) { // if user is signed in
+            const user = socket.handshake.session.user;
+            socket.on('makeBet', function(id, team, amount) {
+                if(!id || (team != 'team1' && team != 'team2') || !amount) return;
+                db.match.makeBet(user,id,team,parseInt(amount)).then(() => {
                     socket.nsp.to(id).emit('newBet', {
-                        name: user.displayName,
+                        name: {id: user.id, displayName: user.displayName},
                         amount: amount,
                     });
-                },() => {
-                    console.log(displayName + ' tried to bet on active game');
+                },(err) => {
+                    throw err;
                 })
             })
         }

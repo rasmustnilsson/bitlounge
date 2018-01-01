@@ -2,7 +2,7 @@ const { HLTV } = require('hltv');
 const Match = require('./models/Match');
 const User = require('./models/User');
 const async = require('async');
-const matchStorage = require('../matches');
+const matchStorage = require('../matchStorage');
 
 const J = {
     match: {
@@ -29,47 +29,40 @@ const J = {
                 })
             })
         },
-        makeBet: function (user,id,amount) {
+        makeBet: function (user,id,team,amount) {
             return new Promise((resolve,reject) => {
-                if(matchStorage.matchIsActive(id)) return reject();
-                const date = Date.now;
+                if(matchStorage.isActive(id)) return reject('match is active');
+                const newBet = {
+                    name: { id: user.id, displayName: user.displayName },
+                    amount: amount,
+                    team: matchStorage.getTeam(id,team),
+                    date: Date.now,
+                };
                 Match.get(id).then((match) => {
                     if(!match) {
                         const match = new Match({
                             id:id,
-                            bets: [{name: user.displayName, amount, date: date}],
+                            bets: [newBet],
                         })
                         match.save(function(err,match) {
                             resolve(err,match);
                         })
                     } else {
-                        match.bets.push({ name: user.displayName, amount: amount, date: date });
+                        match.bets.push(newBet);
                         match.save(function(err,match) {
                             resolve(err,match);
                         })
                     }
-                    J.user.newBet(id,user.id,amount,date);
+                    J.user.newBet(id,newBet);
                 })
             })
         },
     },
     user: {
-        newBet: function(id,user,amount,date) {
-            console.log(date);
-            return new Promise((resolve,reject) => {
-                User.get(user).then((user) => {
-                    user.statistics.totalBets += 1;
-                    user.statistics.activeBets += 1;
-                    user.bets.push({
-                        id:id,
-                        amount: amount,
-                        date: date,
-                        active: true,
-                    });
-                    user.save((err,user) => {
-                        resolve(user);
-                    });
-                });
+        newBet: function(id,bet) {
+            User.get(bet.name.id).then((user) => {
+                user.newBet(id,bet);
+                user.save();
             });
         },
         getAllBets: function (id) {
