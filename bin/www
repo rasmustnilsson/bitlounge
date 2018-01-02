@@ -33,6 +33,11 @@ server.on('listening', onListening);
  * Normalize a port into a number, string, or false.
  */
 
+ process.on('unhandledRejection', (reason, p) => {
+   console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
+   // application specific logging, throwing an error, or other logic here
+ });
+
 function normalizePort(val) {
   var port = parseInt(val, 10);
 

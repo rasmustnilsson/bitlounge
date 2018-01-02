@@ -1,16 +1,19 @@
-let scripts = {
+let envData = {
     vue: 'vue.js',
+    port: ':3000',
 };
 
-if(process.env.NODE_ENV) {
-    scripts.vue = 'vue.min.js';
+if(process.env.NODE_ENV == 'production') {
+    envData.vue = 'vue.min.js';
+    envData.port = null;
 }
 
 module.exports = {
     get: function(req, data) {
         if(!req) return user = {isLoggedIn: false };
         let J = {
-            vue: scripts.vue,
+            vue: envData.vue,
+            port: envData.port,
             path: req.route.path,
         };
         if(data) {
