@@ -35,8 +35,13 @@ matchSchema.statics.getBet = function(id){
                 team1: { payout: 0 },
                 team2: { payout: 0 },
             })
-            match.team1.payout = match.team2.pot / match.team1.pot;
-            match.team2.payout = match.team1.pot / match.team2.pot;
+            if(match.team1.pot == 0 || match.team2.pot == 0) {
+                match.team1.payout = 1;
+                match.team2.payout = 1;
+            } else {
+                match.team1.payout = match.team2.pot / match.team1.pot;
+                match.team2.payout = match.team1.pot / match.team2.pot;
+            }
             resolve({
                 bets: match.bets,
                 team1: { payout: match.team1.payout },
