@@ -16,15 +16,17 @@ const J = {
                             callback();
                         })
                     }, (callback) => {
-                        Match.get(id).then((response) => {
+                        Match.getBet(id).then((response) => {
                             if(!response) betData = [];
-                            else betData = response.bets;
+                            else {
+                                betData = response;
+                            };
                             callback();
                         })
                     }
                 ], (err) => { // when async is done
                     if(err) throw err;
-                    match.bets = betData;
+                    match.betData = betData;
                     resolve(match);
                 })
             })
@@ -32,35 +34,34 @@ const J = {
         makeBet: function (user,id,team,amount) {
             return new Promise((resolve,reject) => {
                 if(matchStorage.isActive(id)) return reject('match is active');
-                const newBet = {
-                    name: { id: user.id, displayName: user.displayName },
-                    amount: amount,
-                    team: matchStorage.getTeam(id,team),
-                    date: Date.now,
-                };
                 Match.get(id).then((match) => {
                     if(!match) {
-                        const match = new Match({
+                        const team1 = matchStorage.getTeam(id,'team1');
+                        const team2 = matchStorage.getTeam(id,'team2');
+                        match = new Match({
                             id:id,
-                            bets: [newBet],
-                        })
-                        match.save(function(err,match) {
-                            resolve(err,match);
-                        })
-                    } else {
-                        match.bets.push(newBet);
-                        match.save(function(err,match) {
-                            resolve(err,match);
+                            bets: [],
+                            totalPot: 0,
+                            team1: { id: team1.id, name: team1.name, pot: 0 },
+                            team2: { id: team1.id, name: team2.name, pot: 0 },
                         })
                     }
-                    J.user.newBet(id,newBet);
+                    match.newBet(user,matchStorage.getTeam(id,team), amount);
+                    match.save(function(err,match) {
+                        resolve(err,match);
+                    })
+                    J.user.newBet(id,{
+                        userId: user.id,
+                        amount: amount,
+                        team: matchStorage.getTeam(id,team),
+                    });
                 })
             })
         },
     },
     user: {
         newBet: function(id,bet) {
-            User.get(bet.name.id).then((user) => {
+            User.get(bet.userId).then((user) => {
                 user.newBet(id,bet);
                 user.save();
             });

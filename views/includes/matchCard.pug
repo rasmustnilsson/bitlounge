@@ -10,10 +10,10 @@ div.card.text-center
             div.col-auto.d-flex.flex-row.align-items-center
                 h4 {{ team1.name }}
                 img.img-fluid.team-logo(v-bind:src='"https://static.hltv.org//images/team/logo/" + team1.id')
-                span 50%
+                span {{ team1.payout }}
             div.col-auto.d-flex.flex-row.align-items-center
                 h4 VS
             div.col-auto.d-flex.flex-row.align-items-center
-                span 50%
+                span {{ team2.payout }}
                 img.img-fluid.team-logo(v-bind:src='"https://static.hltv.org//images/team/logo/" + team2.id')
                 h4 {{ team2.name }}

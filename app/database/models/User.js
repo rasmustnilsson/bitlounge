@@ -21,7 +21,7 @@ userSchema.methods.newBet = function(id,bet) {
     this.bets.push({
         id:id,
         amount: bet.amount,
-        date: bet.date,
+        date: Date.now(),
         team: bet.team,
         active: true,
     });

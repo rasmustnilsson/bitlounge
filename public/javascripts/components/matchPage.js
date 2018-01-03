@@ -2,12 +2,20 @@ var matchPage = new Vue({
     el: '#match_wrapper',
     data: {
         id: matchId,
-        team1: match.team1,
-        team2: match.team2,
+        team1: {
+            name: match.team1.name,
+            id: match.team1.id,
+            payout: match.betData.team1.payout,
+        },
+        team2: {
+            name: match.team2.name,
+            id: match.team2.id,
+            payout: match.betData.team2.payout,
+        },
         date: match.date,
         format: match.format,
         headToHead: match.headToHead,
-        bets: match.bets,
+        bets: match.betData.bets,
         vetoes: match.vetoes,
         isLoggedIn: isLoggedIn,
         highlightedPlayers: match.highlightedPlayers,
@@ -33,7 +41,7 @@ var matchPage = new Vue({
             if(this.live) return moment(this.date).fromNow();
             return moment(this.date).format('MMMM Do, h:mm:ss a');
         },
-        getHeadToHead: function() {
+        getHeadToHead: function() { // sorts the head to head games
             if(this.headToHead.length == 0) return [];
             let eventCounter = 0;
             let events = [{
