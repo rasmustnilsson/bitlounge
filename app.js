@@ -4,23 +4,27 @@ const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
-const compression = require('compression')
-const session = require('express-session')({ // session secret
-    resave: true,
-    secret:'ilovescotchscotchyscotchscotch',
-    saveUninitialized: true,
-});
+const compression = require('compression');
 const sharedsession = require("express-socket.io-session");
 const io = require('socket.io')();
 const matches = require('./app/matchStorage.js');
 const app = express();
+const store = require('./redisStore')();
+const session = require('express-session')({
+    resave: false,
+    secret:'ilovescotchscotchyscotchscotch',
+    saveUninitialized: false,
+    store: store,
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 //app.use(logger('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -28,16 +32,14 @@ app.use(compression());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(session);
 
+// initializes socket.io with shared session
 io.use(sharedsession(session));
 io.listen(3000);
 require('./app/socket/socketEvents.js')(io);
 
 //routes
 require('./routes/index.js')(app);
-process.on('unhandledRejection', (reason, p) => {
-  console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
-  // application specific logging, throwing an error, or other logic here
-});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
