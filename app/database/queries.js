@@ -38,12 +38,13 @@ const J = {
                     if(!match) {
                         const team1 = matchStorage.getTeam(id,'team1');
                         const team2 = matchStorage.getTeam(id,'team2');
+                        console.log('runs');
                         match = new Match({
                             id:id,
                             bets: [],
                             totalPot: 0,
                             team1: { id: team1.id, name: team1.name, pot: 0 },
-                            team2: { id: team1.id, name: team2.name, pot: 0 },
+                            team2: { id: team2.id, name: team2.name, pot: 0 },
                         })
                     }
                     match.newBet(user,matchStorage.getTeam(id,team), amount);

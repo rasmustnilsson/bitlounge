@@ -5,12 +5,12 @@ var matchPage = new Vue({
         team1: {
             name: match.team1.name,
             id: match.team1.id,
-            payout: match.betData.team1.payout,
+            payout: match.betData.team1.payout.toFixed(2),
         },
         team2: {
             name: match.team2.name,
             id: match.team2.id,
-            payout: match.betData.team2.payout,
+            payout: match.betData.team2.payout.toFixed(2),
         },
         date: match.date,
         format: match.format,

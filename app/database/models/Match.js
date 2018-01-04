@@ -23,8 +23,12 @@ matchSchema.methods.newBet = function(user,team,amount) {
         date: Date.now(),
     });
     this.totalPot += amount;
-    if(this.team1.id == team.id) this.team1.post += amount;
-    else if(this.team2.id == team.id) this.team2.post += amount;
+    if(this.team1.id == team.id) {
+        this.team1.pot += amount;
+    }
+    else if(this.team2.id == team.id) {
+        this.team2.pot += amount;
+    }
 }
 
 matchSchema.statics.getBet = function(id){
@@ -39,8 +43,8 @@ matchSchema.statics.getBet = function(id){
                 match.team1.payout = 1;
                 match.team2.payout = 1;
             } else {
-                match.team1.payout = match.team2.pot / match.team1.pot;
-                match.team2.payout = match.team1.pot / match.team2.pot;
+                match.team1.payout = match.team2.pot / match.team1.pot + 1;
+                match.team2.payout = match.team1.pot / match.team2.pot + 1;
             }
             resolve({
                 bets: match.bets,
