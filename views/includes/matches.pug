@@ -2,8 +2,8 @@ div(id="matches")
 	div.matches_wrapper
 		div(v-for="match in matchesList")
 			div.card.text-center.imageFit.text-white.mb-3(v-bind:style="{ 'background-image': 'url(/image/' + match.maps[0] + '.png)' }")
-				h4.isLive(v-if="match.live") Live
-				h4.isLive(v-else) {{ getDate(match.date) }}
+				h4.isLive(v-if="!match.live == true")
+				h4.isLive(v-else) Live
 				h4.card-title {{ match.team1.name }} VS {{ match.team2.name }}
 				h4 Format: {{ match.format }}
 				a.btn.btn-warning(:href="'/match/' + match.id") Go to Match

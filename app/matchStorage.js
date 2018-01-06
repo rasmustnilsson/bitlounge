@@ -21,7 +21,7 @@ function loadMatches() {
                     HLTV.getMatch({id:activeMatch.id}).then((match) => {
                         // if the game cant be found
                         if(!match || !match.winnerTeam) return;
-                        match.id = id; // active match id
+                        match.id = activeMatch.id; // active match id
                         console.log('game: ' + match.id + ' is over!');
                         storageQueries.matchFinished(match);
                     })

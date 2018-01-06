@@ -1,4 +1,3 @@
-const table = require('../../../config/database/tables');
 const dynamoose = require('../../../config/database/config');
 
 const matchSchema =  new dynamoose.Schema({
@@ -37,8 +36,8 @@ matchSchema.statics.getBet = function(id){
         this.get(id).then(match => {
             if(!match) return resolve({
                 bets: [],
-                team1: { payout: 1 },
-                team2: { payout: 1 },
+                team1: { payout: 0 },
+                team2: { payout: 0 },
             })
             if(match.team1.pot == 0 || match.team2.pot == 0) {
                 match.team1.payout = 1;
@@ -56,7 +55,7 @@ matchSchema.statics.getBet = function(id){
     })
 }
 
-module.exports = dynamoose.model(table.matches, matchSchema, {
+module.exports = dynamoose.model('matches', matchSchema, {
   create: true, // Create table in DB, if it does not exist,
   update: false, // Update remote indexes if they do not bet local index structure
   waitForActive: true, // Wait for table to be created before trying to use it

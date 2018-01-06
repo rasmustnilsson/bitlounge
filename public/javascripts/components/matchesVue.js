@@ -2,11 +2,6 @@ var matches = new Vue({
     el: '#matches',
     data: {
         matchesList: [],
-    },
-    methods: {
-        getDate(date) {
-            return moment(date).fromNow();
-        }
     }
 })
 

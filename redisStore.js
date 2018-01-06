@@ -1,5 +1,5 @@
 module.exports = function() {
-    if(process.env.NODE_ENV != 'production') {
+    if(process.env.NODE_ENV == 'production') {
         const session = require('express-session');
         const redis = require('redis');
         const client = redis.createClient();
