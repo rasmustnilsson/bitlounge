@@ -1,4 +1,7 @@
 const dynamoose = require('../../../config/database/config');
+const table = require('../../../config/database/tables');
+
+const Match = require('./Match');
 
 const userSchema = new dynamoose.Schema({
     id: String,
@@ -12,6 +15,7 @@ const userSchema = new dynamoose.Schema({
         wins: 0,
         losses: 0,
     }},
+    wallet: { type: Number, default: 0 },
     bets: { type: Array, default: [] },
 });
 
@@ -27,22 +31,30 @@ userSchema.methods.newBet = function(id,bet) {
     });
 }
 userSchema.methods.matchFinished = function(match) {
-    for(let index in this.bets) {
-        if(match.id == this.bets[index].id) {
-            this.bets[index].active = false;
-            this.statistics.activeBets -= 1;
-            if(match.winnerTeam.id == this.bets[index].team.id) {
-                this.statistics.wins += 1;
-                this.bets[index].won = true;
-            } else {
-                this.statistics.losses += 1;
-                this.bets[index].won = false;
+    return new Promise((resolve,reject) => {
+        for(let index in this.bets) {
+            const bet = this.bets[index];
+            if(match.id == bet.id) {
+                bet.active = false;
+                this.statistics.activeBets -= 1;
+                if(match.winnerTeam.id == bet.team.id) {
+                    this.statistics.wins += 1;
+                    bet.won = true;
+                    Match.getWinnerPayout(match.id,bet.amount).then((amount) => {
+                        this.wallet += amount;
+                        resolve(this);
+                    })
+                } else {
+                    this.statistics.losses += 1;
+                    bet.won = false;
+                    resolve(this);
+                }
             }
         }
-    }
+    })
 }
 
-module.exports = dynamoose.model('users', userSchema, {
+module.exports = dynamoose.model(table.users, userSchema, {
     create: true, // Create table in DB, if it does not exist,
     update: false, // Update remote indexes if they do not match local index structure
     waitForActive: true, // Wait for table to be created before trying to use it

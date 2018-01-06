@@ -1,4 +1,5 @@
 const dynamoose = require('../../../config/database/config');
+const table = require('../../../config/database/tables');
 
 const matchSchema =  new dynamoose.Schema({
     id: String,
@@ -36,16 +37,10 @@ matchSchema.statics.getBet = function(id){
         this.get(id).then(match => {
             if(!match) return resolve({
                 bets: [],
-                team1: { payout: 0 },
-                team2: { payout: 0 },
+                team1: { payout: 1 },
+                team2: { payout: 1 },
             })
-            if(match.team1.pot == 0 || match.team2.pot == 0) {
-                match.team1.payout = 1;
-                match.team2.payout = 1;
-            } else {
-                match.team1.payout = match.team2.pot / match.team1.pot + 1;
-                match.team2.payout = match.team1.pot / match.team2.pot + 1;
-            }
+            match.payout();
             resolve({
                 bets: match.bets,
                 team1: { payout: match.team1.payout },
@@ -55,7 +50,27 @@ matchSchema.statics.getBet = function(id){
     })
 }
 
-module.exports = dynamoose.model('matches', matchSchema, {
+matchSchema.statics.getWinnerPayout = function(id, amount) {
+    return new Promise((resolve,reject) => {
+        this.get(id).then(match => {
+            match.payout();
+            if(match.winnerTeam.id == match.team1.id) return resolve(amount * match.team1.payout);
+            resolve(amount * match.team2.payout);
+        })
+    })
+}
+
+matchSchema.methods.payout = function() {
+    if(this.team1.pot == 0 || this.team2.pot == 0) {
+        this.team1.payout = 1;
+        this.team2.payout = 1;
+    } else {
+        this.team1.payout = this.team2.pot / this.team1.pot + 1;
+        this.team2.payout = this.team1.pot / this.team2.pot + 1;
+    }
+}
+
+module.exports = dynamoose.model(table.matches, matchSchema, {
   create: true, // Create table in DB, if it does not exist,
   update: false, // Update remote indexes if they do not bet local index structure
   waitForActive: true, // Wait for table to be created before trying to use it
