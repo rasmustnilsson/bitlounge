@@ -38,7 +38,6 @@ const J = {
                     if(!match) {
                         const team1 = matchStorage.getTeam(id,'team1');
                         const team2 = matchStorage.getTeam(id,'team2');
-                        console.log('runs');
                         match = new Match({
                             id:id,
                             bets: [],
@@ -49,7 +48,7 @@ const J = {
                     }
                     match.newBet(user,matchStorage.getTeam(id,team), amount);
                     match.save(function(err,match) {
-                        resolve(err,match);
+                        resolve(matchStorage.getTeam(id,team));
                     })
                     J.user.newBet(id,{
                         userId: user.id,

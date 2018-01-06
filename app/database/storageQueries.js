@@ -11,12 +11,9 @@ const J = {
             for(let bet of match.bets) {
                 User.get(bet.name.id).then(user => {
                     user.matchFinished(match);
-                    user.save(function(err,user) {
-                        console.log(err,user);
-                    });
+                    user.save();
                 })
             }
-
         })
     },
 }

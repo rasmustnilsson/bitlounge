@@ -1,3 +1,4 @@
+const table = require('../../../config/database/tables');
 const dynamoose = require('../../../config/database/config');
 
 const userSchema = new dynamoose.Schema({
@@ -42,7 +43,7 @@ userSchema.methods.matchFinished = function(match) {
     }
 }
 
-module.exports = dynamoose.model('users', userSchema, {
+module.exports = dynamoose.model(table.users, userSchema, {
     create: true, // Create table in DB, if it does not exist,
     update: false, // Update remote indexes if they do not match local index structure
     waitForActive: true, // Wait for table to be created before trying to use it
