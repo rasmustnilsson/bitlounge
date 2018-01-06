@@ -34,11 +34,11 @@ const J = {
         makeBet: function (user,id,team,amount) {
             return new Promise((resolve,reject) => {
                 if(matchStorage.isActive(id)) return reject('match is active');
+                team = matchStorage.getTeam(id,team);
                 Match.get(id).then((match) => {
                     if(!match) {
                         const team1 = matchStorage.getTeam(id,'team1');
                         const team2 = matchStorage.getTeam(id,'team2');
-                        console.log('runs');
                         match = new Match({
                             id:id,
                             bets: [],
@@ -47,14 +47,14 @@ const J = {
                             team2: { id: team2.id, name: team2.name, pot: 0 },
                         })
                     }
-                    match.newBet(user,matchStorage.getTeam(id,team), amount);
+                    match.newBet(user,team, amount);
                     match.save(function(err,match) {
-                        resolve(err,match);
+                        resolve(team);
                     })
                     J.user.newBet(id,{
                         userId: user.id,
                         amount: amount,
-                        team: matchStorage.getTeam(id,team),
+                        team: team,
                     });
                 })
             })
