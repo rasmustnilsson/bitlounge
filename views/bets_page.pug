@@ -15,6 +15,8 @@ block content
                 ul.list-group.list-group-lush(v-for='bet in bets')
                     li.list-group-item(v-if="show(bet.active)") amount: {{ bet.amount }}
                         a(v-bind:href='"/match/" + bet.id') Go to game
+                        span.badge.badge-success(v-if='bet.won') Win
+                        span.badge.badge-danger(v-if='!bet.won && !bet.active') Loss
 
 block footerScripts
     script const bets=!{pageData};

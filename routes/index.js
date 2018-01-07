@@ -22,29 +22,26 @@ module.exports = function(app) {
             client_secret: COINBASE_CLIENT_SECRET,
             redirect_uri: COINBASE_AUTHENTICATION_CALLBACK,
         }).then(response => {
-            const client = new Client({'accessToken': response.data.access_token, 'refreshToken': response.data.refresh_token});
+            const clientTokens = {'accessToken': response.data.access_token, 'refreshToken': response.data.refresh_token};
+            const client = new Client(clientTokens);
             client.getCurrentUser((err, user) => {
                 User.get(user.id).then((profile) => {
-                    if(!profile) {
-                        const profile = new User({
-                            id: user.id,
-                            name: user.name,
-                            displayName: user.name,
-                        });
-                        profile.save(() => {
-                            req.session.user = profile;
-                            req.session.user.client = {'accessToken': response.data.access_token, 'refreshToken': response.data.refresh_token};
-                            req.session.save(() => {
-                                res.redirect('/');
-                            })
-                        })
-                    } else {
+                    function authenicated(profile) {
                         req.session.user = profile;
-                        req.session.user.client = {'accessToken': response.data.access_token, 'refreshToken': response.data.refresh_token};
+                        req.session.user.client = clientTokens;
                         req.session.save(() => {
                             res.redirect('/');
                         })
                     }
+                    if(profile) return authenicated(profile);
+                    profile = new User({
+                        id: user.id,
+                        name: user.name,
+                        displayName: user.name,
+                    });
+                    profile.save(() => {
+                        authenicated(profile);
+                    })
                 })
             });
         })

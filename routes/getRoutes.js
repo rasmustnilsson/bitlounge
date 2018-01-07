@@ -13,14 +13,17 @@ module.exports = function(app,login,isLoggedIn,authenticate) {
             res.redirect('/');
         })
     });
-    app.get('/profile/:profileId',isLoggedIn, function(req, res, next) {
-        res.render('profile_page', pugData.get(req));
+    app.get('/profile',isLoggedIn, function(req, res, next) {
+        db.user.getProfile(req.session.user.id).then(user => {
+            res.render('profile_page', pugData.get(req, {
+                pageData: stringify(user),
+            }));
+        })
     });
-    app.get('/bets/:pageId', isLoggedIn, function(req,res) {
-        db.user.getAllBets(req.params.pageId).then((bets) => {
+    app.get('/bets', isLoggedIn, function(req,res) {
+        db.user.getAllBets(req.session.user.id).then((bets) => {
             res.render('bets_page', pugData.get(req, {
                 pageData: stringify(bets),
-                pageId: req.params.pageId,
             }));
         })
     })

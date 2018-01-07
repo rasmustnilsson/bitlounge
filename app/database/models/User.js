@@ -42,6 +42,7 @@ userSchema.methods.matchFinished = function(match) {
                     bet.won = true;
                     Match.getWinnerPayout(match.id,bet.amount).then((amount) => {
                         this.wallet += amount;
+                        bet.payout = amount;
                         resolve(this);
                     })
                 } else {

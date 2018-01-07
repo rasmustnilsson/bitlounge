@@ -67,7 +67,15 @@ const J = {
                 user.save();
             });
         },
-        getAllBets: function (id) {
+        getProfile: function(id) {
+            return new Promise((resolve,reject) => {
+                User.scan({id: {eq: id}})
+                .attributes(['displayName', 'name', 'statistics', 'wallet']).exec((err,user) => {
+                    resolve(user[0]);
+                })
+            })
+        },
+        getAllBets: function(id) {
             return new Promise((resolve,reject) => {
                 User.get(id).then((user) => {
                     resolve(user.bets);
