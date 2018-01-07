@@ -1,3 +1,4 @@
+//- include loginModal.pug
 nav.navbar.navbar-dark.bg-dark.navbar-expand-lg.mb-2
     a.navbar-brand.text-color-cta(href='/') BitLounge
     button.navbar-toggler(type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
@@ -10,3 +11,4 @@ nav.navbar.navbar-dark.bg-dark.navbar-expand-lg.mb-2
                 a.nav-link(href='/bets' class={active: path == '/bets'}) My bets
         form(action=isLoggedIn ? '/logout': href='/auth/coinbase' method='get')
             button.btn.btn-warning(type='submit')= isLoggedIn ? 'Logout' : 'Login with Coinbase'
+        //- button.btn.btn-warning(type='button' data-toggle='modal' data-target='#loginModal') Login

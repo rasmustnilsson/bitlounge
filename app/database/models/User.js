@@ -19,9 +19,19 @@ const userSchema = new dynamoose.Schema({
     bets: { type: Array, default: [] },
 });
 
+userSchema.statics.gotMoney = function(id,amount) {
+    return new Promise((resolve,reject) => {
+        this.get(id).then(user => {
+            if(user.wallet >= amount) return resolve();
+            reject();
+        })
+    })
+}
+
 userSchema.methods.newBet = function(id,bet) {
     this.statistics.totalBets += 1;
     this.statistics.activeBets += 1;
+    this.wallet -= bet.amount;
     this.bets.push({
         id:id,
         amount: bet.amount,

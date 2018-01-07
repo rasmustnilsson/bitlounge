@@ -9,14 +9,15 @@ module.exports = function(io) {
             const user = socket.handshake.session.user;
             socket.on('makeBet', function(id, team, amount) {
                 if(!id || (team != 'team1' && team != 'team2') || !amount) return;
-                db.match.makeBet(user,id,team,parseInt(amount)).then((team) => {
+                db.match.makeBet(user,id,team,parseInt(amount))
+                .then((team) => {
                     socket.nsp.to(id).emit('newBet', {
                         name: {id: user.id, displayName: user.displayName},
                         amount: amount,
                         team: team,
                     });
-                },(err) => {
-                    throw err;
+                }).catch(err => {
+                    socket.emit('alert',err);
                 })
             })
         }

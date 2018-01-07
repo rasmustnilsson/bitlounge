@@ -33,40 +33,40 @@ const J = {
         },
         makeBet: function (user,id,team,amount) {
             return new Promise((resolve,reject) => {
+                // rejects if match is still active
                 if(matchStorage.isActive(id)) return reject('match is active');
                 team = matchStorage.getTeam(id,team);
-                Match.get(id).then((match) => {
-                    if(!match) {
-                        const team1 = matchStorage.getTeam(id,'team1');
-                        const team2 = matchStorage.getTeam(id,'team2');
-                        match = new Match({
-                            id:id,
-                            bets: [],
-                            totalPot: 0,
-                            team1: { id: team1.id, name: team1.name, pot: 0 },
-                            team2: { id: team2.id, name: team2.name, pot: 0 },
-                        })
-                    }
-                    match.newBet(user,team, amount);
-                    match.save(function(err,match) {
-                        resolve(team);
-                    })
-                    J.user.newBet(id,{
+                User.get(user.id).then(user => {
+                    // rejects if not enough money
+                    if(user.wallet <= amount) return reject('not enough money!');
+                    // pushes new bet
+                    user.newBet(id, {
                         userId: user.id,
                         amount: amount,
                         team: team,
                     });
+                    user.save();
+                    Match.get(id).then((match) => {
+                        // if no match exists in db => creates new
+                        if(!match) {
+                            const team1 = matchStorage.getTeam(id,'team1');
+                            const team2 = matchStorage.getTeam(id,'team2');
+                            match = new Match({
+                                id: id, bets: [], totalPot: 0,
+                                team1: { id: team1.id, name: team1.name, pot: 0 },
+                                team2: { id: team2.id, name: team2.name, pot: 0 },
+                            })
+                        }
+                        match.newBet(user,team,amount);
+                        match.save(function(err,match) {
+                            resolve(team);
+                        })
+                    })
                 })
             })
         },
     },
     user: {
-        newBet: function(id,bet) {
-            User.get(bet.userId).then((user) => {
-                user.newBet(id,bet);
-                user.save();
-            });
-        },
         getProfile: function(id) {
             return new Promise((resolve,reject) => {
                 User.scan({id: {eq: id}})
