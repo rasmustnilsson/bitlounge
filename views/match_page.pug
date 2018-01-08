@@ -1,7 +1,7 @@
 extends layout
 
 block headerScripts
-    script(src='/javascripts/socket.io.min.js')
+    script(src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js" integrity="sha256-jniDwC1PC9OmGoyPxA9VpGvgwDYyxsMqu5Q4OrF5wNY=" crossorigin="anonymous")
 block content
     div#match_wrapper
         div.row
@@ -34,5 +34,5 @@ block content
 
 block footerScripts
     script const matchId=#{pageId};const match=!{pageData};
-    script(src='/javascripts/components/socket_match.js')
-    script(src='/javascripts/components/matchPage.js')
+    script(src='/javascripts/socket_match.js')
+    script(src='/javascripts/matchPage.js')

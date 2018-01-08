@@ -2,11 +2,17 @@ extends layout
 
 block content
     div#profilePage
-        h6 username: {{ displayName }}
         h6 name: {{ name }}
+        form(action='/changeDisplayName' method='post')
+            div.input-group
+                div.input-group-prepend
+                    span.input-group-text Display name
+                input(type="text" class="form-control" name='newDisplayName' v-bind:placeholder="displayName" aria-label="Display name" aria-describedby="change display name" required)
+                div.input-group-append
+                    button.btn.btn-warning(type='submit') Save
         h6 statistics: {{ statistics }}
         h6 wallet: {{ wallet }}
     
 block footerScripts
     script const user=!{pageData};
-    script(src='/javascripts/components/profilePage.js')
+    script(src='/javascripts/profilePage.js')

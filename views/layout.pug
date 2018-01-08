@@ -2,23 +2,23 @@ doctype html
 html
 	head
 		title BitLounge
-		script(src="/javascripts/"+vue)
-		script(src="/javascripts/axios.min.js")
-		script(src="/javascripts/moment.min.js")
-		block headerScripts
+		script(src=vueSrc integrity=vueIntegrity crossorigin="anonymous")
 		script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js" integrity="sha256-A83FHt22LbSOPYN9dGs74h/J0jqc3TZapHUplf2uupI=" crossorigin="anonymous")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js" integrity="sha256-ABVkpwb9K9PxubvRrHMkk6wmWcIHUE9eBxNZLXYQ84k=" crossorigin="anonymous")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous")
-		script(src="/javascripts/bootstrap.min.js")
+		script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js" integrity="sha384-a5N7Y/aK3qNeh15eJKGWxsqtnX/wWdSZSKp+81YjTmS15nvnvxKHuzaWwXHDli+4" crossorigin="anonymous")
+		script(src="https://cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.4/cookieconsent.min.js")
 		script const isLoggedIn = #{isLoggedIn};const port = '#{port}';
+		block headerScripts
 		meta(charset="utf-8")
 		meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
 		link(rel="stylesheet" href="/stylesheets/cookieconsent.min.css" )
-		link(rel="stylesheet" href="/stylesheets/bootstrap.min.css" )
+		link(rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous")
 		link(rel="stylesheet" href="/stylesheets/style.css")
 	body
 		include includes/header.pug
 		block content
 		block footerScripts
-		script(src="/javascripts/cookieconsent.min.js")
-		script(src="/javascripts/components/cookieconsentConfig.js")
+		script(src="/javascripts/cookieconsentConfig.js")
 	

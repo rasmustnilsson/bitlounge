@@ -1,14 +1,14 @@
 div(id="matches")
 	div.matches_wrapper
 		div(v-for="match in matchesList")
+			small.text-danger(v-if="match.live") Live
+			small.text-muted(v-else) {{ getTime(match.date) }}
 			div.card.text-center.imageFit.text-white.mb-3(v-bind:style="{ 'background-image': 'url(/image/' + match.maps[0] + '.png)' }")
-				h4.isLive(v-if="match.live") Live
-				h4.isLive(v-else) {{ getTime(match.date) }}
-				h4.card-title {{ match.team1.name }} VS {{ match.team2.name }}
+				h4.card-title.mt-3 {{ match.team1.name }} VS {{ match.team2.name }}
 				h4 Format: {{ match.format }}
-				a.btn.btn-warning(:href="'/match/' + match.id") Go to Match
-				span(v-if="match.maps[0] != undefined" v-for="map in match.maps") {{ map }}
-				span(v-else) TBA
+				a.btn.btn-warning.mb-3(:href="'/match/' + match.id") Go to Match
+				//- span(v-if="match.maps[0] != undefined" v-for="map in match.maps") {{ map }}
+				//- span(v-else) TBA
 					
-script(src="javascripts/components/mapsTranslator.js")
-script(src="javascripts/components/matchesVue.js")
+script(src="javascripts/mapsTranslator.js")
+script(src="javascripts/matchesVue.js")

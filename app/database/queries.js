@@ -75,6 +75,16 @@ const J = {
                 })
             })
         },
+        changeDisplayName: function(id,newDisplayName) {
+            return new Promise((resolve,reject) => {
+                if(newDisplayName.length == 0) return resolve();
+                User.get(id).then(user => {
+                    user.displayName = newDisplayName;
+                    user.save();
+                    resolve();
+                })
+            })
+        },
         getAllBets: function(id) {
             return new Promise((resolve,reject) => {
                 User.get(id).then((user) => {

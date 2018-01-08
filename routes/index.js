@@ -51,6 +51,6 @@ module.exports = function(app) {
         return res.redirect('/auth/coinbase');
     }
     require('./getRoutes')(app,login,isLoggedIn,authenticate);
-    require('./postRoutes')(app,login,isLoggedIn);
+    require('./postRoutes')(app,isLoggedIn);
 
 };
