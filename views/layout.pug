@@ -5,18 +5,20 @@ html
 		script(src="/javascripts/"+vue)
 		script(src="/javascripts/axios.min.js")
 		script(src="/javascripts/moment.min.js")
-		script const port = '#{port}';
 		block headerScripts
 		script(src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous")
 		script(src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous")
 		script(src="/javascripts/bootstrap.min.js")
-		script const isLoggedIn = #{isLoggedIn};
+		script const isLoggedIn = #{isLoggedIn};const port = '#{port}';
 		meta(charset="utf-8")
 		meta(name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no")
+		link(rel="stylesheet" href="/stylesheets/cookieconsent.min.css" )
 		link(rel="stylesheet" href="/stylesheets/bootstrap.min.css" )
 		link(rel="stylesheet" href="/stylesheets/style.css")
 	body
 		include includes/header.pug
 		block content
 		block footerScripts
+		script(src="/javascripts/cookieconsent.min.js")
+		script(src="/javascripts/components/cookieconsentConfig.js")
 	
