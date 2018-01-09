@@ -5,7 +5,7 @@ div.col
                 input.option1(type="radio" name="options" autocomplete="off" checked)
             label.btn.btn-secondary
                 input.option2(type="radio" name="options" autocomplete="off")
-    div.col-12
+    div.col-auto
         - var n = 0
         while n < 5
             - n++
@@ -23,5 +23,5 @@ div.col
                             span  {{ match.team1.result }}:{{ match.team2.result }}
             div.col
                 figure.figure
-                    img.poster(src="https://i.pinimg.com/736x/b4/a5/00/b4a500f0981128613e129c8a3d25346c--vans-black-friday-friday-.jpg")
+                    img.figure-img.img-fluid.rounded(src="https://i.pinimg.com/736x/b4/a5/00/b4a500f0981128613e129c8a3d25346c--vans-black-friday-friday-.jpg")
     script(src='/javascripts/latestMatches.js')

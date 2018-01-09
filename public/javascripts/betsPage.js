@@ -5,11 +5,17 @@ var betsPage = new Vue({
         filter: -1, // -1 = all, 'active' = only active, 'finished' = only finished
     },
     methods: {
-        show: function(betStatus) {
-            if(this.filter == -1) return true;
-            if(this.filter == 'active' && betStatus) return true;
-            if(this.filter == 'finished' && !betStatus) return true;
-            return false;
-        }
+        getBets() {
+            let betsToShow = [];
+            for(bet of this.bets) {
+                if(this.filter == -1 || // if filter is all
+                    (this.filter == 'active' && bet.active) || // if filter is 'active'
+                    (this.filter == 'finished' && !bet.active)) betsToShow.push(bet); // if filter is 'finished'
+            }
+            return betsToShow;
+        },
+        getDate(date) {
+            return moment(date).format('MMMM Do, h:mm:ss a');
+        },
     }
 })

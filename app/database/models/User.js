@@ -58,6 +58,7 @@ userSchema.methods.matchFinished = function(match) {
                 } else {
                     this.statistics.losses += 1;
                     bet.won = false;
+                    bet.payout = 0;
                     resolve(this);
                 }
             }
