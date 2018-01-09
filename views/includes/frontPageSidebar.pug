@@ -6,45 +6,22 @@ div.col
             label.btn.btn-secondary
                 input.option2(type="radio" name="options" autocomplete="off")
     div.col-12
-        div.card
-            p Lorem impsum
-        div.card
-            p Lorem impsum
-        div.card
-            p Lorem impsum
-        div.card
-            p Lorem impsum
-        div.card
-            p Lorem impsum
-        
+        - var n = 0
+        while n < 5
+            - n++
+            div.card
+                p Lorem impsum
         div.row.mr-0.ml-0
-            div.col
-                ul.list-group
-                    li.list-group-item
-                        span.badge
-                            1
-                        span Fnatic
-                ul.list-group
-                    li.list-group-item
-                        span.badge
-                            2
-                        span NIP
-                ul.list-group
-                    li.list-group-item
-                        span.badge
-                            3
-                        span TSM
-                ul.list-group
-                    li.list-group-item
-                        span.badge
-                            4
-                        span SK
-                ul.list-group
-                    li.list-group-item
-                        span.badge
-                            5
-                        span Astralis
-                        
+            div.col#latestMatches
+                div.card
+                    div.card-header Latest Matches
+                    ul.list-group.list-group-flush(v-for='match in matches')
+                        li.list-group-item
+                            span(:class='[match.team1.result > match.team2.result ? "text-success":"text-danger"]') {{ match.team1.name }}
+                            span  - 
+                            span(:class='[match.team1.result < match.team2.result ? "text-success":"text-danger"]') {{ match.team2.name }}
+                            span  {{ match.team1.result }}:{{ match.team2.result }}
             div.col
                 figure.figure
                     img.poster(src="https://i.pinimg.com/736x/b4/a5/00/b4a500f0981128613e129c8a3d25346c--vans-black-friday-friday-.jpg")
+    script(src='/javascripts/latestMatches.js')

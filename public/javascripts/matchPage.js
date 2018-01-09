@@ -41,6 +41,9 @@ var matchPage = new Vue({
             if(this.live) return moment(this.date).fromNow();
             return moment(this.date).format('MMMM Do, h:mm:ss a');
         },
+        getMap: function(map) {
+            return mapsTranslator[map];
+        },
         getHeadToHead: function() { // sorts the head to head games
             if(this.headToHead.length == 0) return [];
             let eventCounter = 0;

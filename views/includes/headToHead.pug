@@ -1,0 +1,9 @@
+div.card.text-center
+    div.card-header Head to Head
+    ul(v-if='headToHead.length != 0').list-group.list-group-flush
+        li.list-group-item.d-flex.justify-content-center(v-for='match in getHeadToHead()')
+            div.col.text-left {{ match.event.name }}
+            div {{ match.team1 }}:{{ match.team2 }}
+            div.col.text-right {{ match.date }}
+    div(v-else).card-body
+        p.card-text No previous head to head games

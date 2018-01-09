@@ -4,6 +4,7 @@ const storageQueries = require('./database/storageQueries');
 
 let matches = []; // stores all the games, is passed to the browser
 let active = []; // stores only the active games
+let finishedMatches = [];
 
 /**
  * if a match in activeArray is not in HLTV.getMatches response => match is over
@@ -12,20 +13,19 @@ let active = []; // stores only the active games
 function loadMatches() {
     HLTV.getMatches().then(response => {
         for(let activeMatch of active) { // loops all the previously active matches
-            activeMatchesIn: for(let i = 0; i < response.length;i++) { // loops and checks if any game is over
+            findActiveMatch: for(let i = 0; i < response.length;i++) { // loops and checks if any game is over
                 let match = response[i];
                 // game is not over
-                if(activeMatch.id == match.id) break activeMatchesIn;
+                if(activeMatch.id == match.id || i != response.length - 1) break findActiveMatch;
                 // game is over
-                if(i == response.length - 1) {
-                    HLTV.getMatch({id:activeMatch.id}).then((match) => {
-                        // if the game cant be found
-                        if(!match || !match.winnerTeam) return;
-                        match.id = activeMatch.id; // active match id
-                        console.log('game: ' + match.id + ' is over!');
-                        storageQueries.matchFinished(match);
-                    })
-                }
+                HLTV.getMatch({id:activeMatch.id}).then((match) => {
+                    // if the game cant be found
+                    if(!match || !match.winnerTeam) return;
+                    match.id = activeMatch.id; // active match id
+                    loadFinishedMatches();
+                    console.log('game: ' + match.id + ' is over!');
+                    storageQueries.matchFinished(match);
+                })
             }
         }
         // reloads all the matches
@@ -38,6 +38,31 @@ function loadMatches() {
         }
     });
 }
+
+function loadFinishedMatches() {
+    HLTV.getResults({pages: 1}).then((matches) => {
+        finishedMatches = [];
+        // incase less then 5 matches are returned
+        const NUMBER_OF_MATCHES = matches.length < 5 ? matches.length : 5;
+        for(var i = 0; i < NUMBER_OF_MATCHES; i++) {
+            finishedMatches.push({
+                id: matches[i].id,
+                date: matches[i].date,
+                team1: {
+                    id: matches[i].team1.id,
+                    name: matches[i].team1.name,
+                    result: matches[i].result.split(' ')[0],
+                },
+                team2: {
+                    id: matches[i].team2.id,
+                    name: matches[i].team2.name,
+                    result: matches[i].result.split(' ')[2],
+                },
+            })
+        }
+    })
+}
+loadFinishedMatches();
 loadMatches();
 setInterval(function(){ // updates matches every 10 seconds
     loadMatches();
@@ -46,6 +71,9 @@ setInterval(function(){ // updates matches every 10 seconds
 const J = {
     getMatches: function() {
         return matches;
+    },
+    getLatestMatches: function() {
+        return finishedMatches;
     },
     getTeam: function(id,team) {
         for(let match of matches) {

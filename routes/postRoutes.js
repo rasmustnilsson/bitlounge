@@ -22,4 +22,7 @@ module.exports = function(app,isLoggedIn) {
             res.redirect('/profile');
         })
     })
+    app.post('/getLatestMatches', function(req,res) {
+        res.send(matches.getLatestMatches());
+    })
 }
