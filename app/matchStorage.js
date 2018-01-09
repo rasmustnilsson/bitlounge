@@ -42,9 +42,9 @@ function loadMatches() {
 function loadFinishedMatches() {
     HLTV.getResults({pages: 1}).then((matches) => {
         finishedMatches = [];
-        // incase less then 5 matches are returned
-        const NUMBER_OF_MATCHES = matches.length < 5 ? matches.length : 5;
+        const NUMBER_OF_MATCHES = 5;
         for(var i = 0; i < NUMBER_OF_MATCHES; i++) {
+            if(matches[i] == undefined) break;
             finishedMatches.push({
                 id: matches[i].id,
                 date: matches[i].date,

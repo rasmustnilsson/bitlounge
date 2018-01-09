@@ -15,7 +15,7 @@ div.col
             div.col#latestMatches
                 div.card
                     div.card-header Latest Matches
-                    ul.list-group.list-group-flush(v-for='match in matches')
+                    ul.list-group.list-group-flush(v-for='match in matches' v-cloak)
                         li.list-group-item
                             span(:class='[match.team1.result > match.team2.result ? "text-success":"text-danger"]') {{ match.team1.name }}
                             span  - 

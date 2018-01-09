@@ -26,16 +26,14 @@ body .navbar .text-color-cta, .text-color-cta {
 .form{
 	float:right;
 }
-.isLive {
-	color: red;
-	text-align:left;
-}
-.btn-warning {
-	margin: 0 auto;
-}
+
 .imageFit{
 	background-size:100%;
 }
 .team-logo {
 	max-height: 60px;
+}
+/* cloaks un-compiled mustache bindings */
+[v-cloak] {
+  display: none;
 }

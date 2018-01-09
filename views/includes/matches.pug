@@ -1,12 +1,12 @@
-div(id="matches")
+div#matches
 	div.matches_wrapper
 		div(v-for="match in matchesList")
 			small.text-danger(v-if="match.live") Live
 			small.text-muted(v-else) {{ getTime(match.date) }}
-			div.card.text-center.imageFit.text-white.mb-3(v-bind:style="{ 'background-image': 'url(/image/' + match.maps[0] + '.png)' }")
+			div.card.text-center.imageFit.text-white.mb-3.align-items-center(v-bind:style="{ 'background-image': 'url(/image/' + match.maps[0] + '.png)' }")
 				h4.card-title.mt-3 {{ match.team1.name }} VS {{ match.team2.name }}
 				h4 Format: {{ match.format }}
-				a.btn.btn-warning.mb-3(:href="'/match/' + match.id") Go to Match
+				a.btn.btn-warning.mb-3(role='button' :href="'/match/' + match.id") Go to Match
 				//- span(v-if="match.maps[0] != undefined" v-for="map in match.maps") {{ map }}
 				//- span(v-else) TBA
 					
