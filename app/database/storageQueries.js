@@ -7,14 +7,15 @@ const J = {
         Match.get(match.id).then((match) => {
             if(!match) return console.log('no bets exist!');
             match.matchFinished(winnerTeam);
-            match.save();
-            for(let bet of match.bets) {
-                User.get(bet.name.id).then(user => {
-                    return user.matchFinished(match)
-                }).then(user => {
-                    user.save();
-                });
-            }
+            match.save().then(() => {
+                for(let bet of match.bets) {
+                    User.get(bet.name.id).then(user => {
+                        return user.matchFinished(match)
+                    }).then(user => {
+                        user.save();
+                    });
+                }
+            })
         })
     },
 }

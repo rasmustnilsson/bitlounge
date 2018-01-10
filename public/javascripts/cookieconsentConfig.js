@@ -4,7 +4,7 @@ window.cookieconsent.initialise({
      popup: {background: "#fff"},
      button: {background: "#aa0000"},
    },
-   revokable:true,
+   revokable: false,
    law: {
      regionalLaw: false,
    },

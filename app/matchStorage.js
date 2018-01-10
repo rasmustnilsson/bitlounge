@@ -16,7 +16,9 @@ function loadMatches() {
             findActiveMatch: for(let i = 0; i < response.length;i++) { // loops and checks if any game is over
                 let match = response[i];
                 // game is not over
-                if(activeMatch.id == match.id || i != response.length - 1) break findActiveMatch;
+                if(activeMatch.id == match.id) break findActiveMatch;
+                // if match is not last it continues loop
+                if(i != response.length - 1) continue findActiveMatch;
                 // game is over
                 HLTV.getMatch({id:activeMatch.id}).then((match) => {
                     // if the game cant be found
