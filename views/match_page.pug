@@ -11,21 +11,27 @@ block content
                     iframe.embed-responsive-item(v-bind:src='streams[0].link' allowfullscreen)
                 small.text-muted(v-else) No stream available
                 include includes/headToHead.pug
-                h4
-                    a(v-bind:href='"/team/"+team1.id') {{ team1.name }}
-                ul
-                    li(v-for='player in players.team1')
-                        a(v-bind:href='"/player/" + player.id') {{ player.name }}
-                h4
-                    a(v-bind:href='"/team/"+team2.id') {{ team2.name }}
-                ul
-                    li(v-for='player in players.team2')
-                        a(v-bind:href='"/player/" + player.id') {{ player.name }}
             div.col
-                include includes/betInput.pug
-                include includes/betsCard.pug
-
+                div.card
+                    div.card-header
+                        div.nav.nav-pills#nav-tab(role='tablist')
+                            a.nav-item.nav-link.active#nav-bets-tab(data-toggle='tab' href='#nav-bets' role='tab' aria-controls='nav-bets' aria-selected='true') Bets
+                            a.nav-item.nav-link#nav-players-tab(data-toggle='tab' href='#nav-players' role='tab' aria-controls='nav-players' aria-selected='false') Players
+                            a.nav-item.nav-link#nav-maps-tab(data-toggle='tab' href='#nav-maps' role='tab' aria-controls='nav-maps' aria-selected='false') Maps
+                            a.nav-item.nav-link.disabled#nav-scoreboard-tab(data-toggle='tab' href='#nav-scoreboard' role='tab' aria-controls='nav-scoreboard' aria-selected='false') Scoreboard
+                    div.card-body
+                        div.tab-content#nav-tabContent
+                            div.tab-pane.show.active#nav-bets(role='tabpanel' aria-labelledby="nav-bets-tab")
+                                include includes/betInput.pug
+                                include includes/betsCard.pug
+                            div.tab-pane#nav-players(role='tabpanel' aria-labelledby="nav-players-tab")
+                                include includes/playersData.pug
+                            div.tab-pane#nav-maps(role='tabpanel' aria-labelledby="nav-maps-tab")
+                                ul.list-group
+                                    li.list-group-item(v-for='map in maps') {{ map.name }}
+                                        img.img-fluid(v-bind:src='"/image/" + getMap(map.name) + ".png"')
 block footerScripts
     script const matchId=#{pageId};const match=!{pageData};
+    script(src='/javascripts/mapsTranslator.js')
     script(src='/javascripts/socket_match.js')
     script(src='/javascripts/matchPage.js')

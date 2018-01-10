@@ -1,0 +1,17 @@
+div.col.px-0
+    div.card
+        div.card-header.px-0
+            div.row
+                h5.col.mb-0
+                    a {{ team1.name }}
+                h5.col.mb-0
+                    a {{ team2.name }}
+        div.row
+            div.col.px-0
+                ul.list-group.list-group-flush
+                    li.list-group-item(v-for='player in players.team1')
+                        a {{ player.name }}
+            div.col.px-0
+                ul.list-group.list-group-flush
+                    li.list-group-item(v-for='player in players.team2')
+                        a {{ player.name }}  

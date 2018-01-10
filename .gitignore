@@ -3,4 +3,4 @@ package-lock.json
 !.gitignore
 config/coinbase/config.js
 config/database/config.js
-
+redisStore.js
