@@ -1,27 +1,35 @@
 div.col
-    div.radio_button
-        div.btn-group(data-toggle="buttons")
-            label.btn.btn-secondary.active
-                input.option1(type="radio" name="options" autocomplete="off" checked)
-            label.btn.btn-secondary
-                input.option2(type="radio" name="options" autocomplete="off")
-    div.col-auto
-        - var n = 0
-        while n < 5
-            - n++
+    div.card
+        div.card-header
+            ul.nav.nav-pills#bets(role="tablist")
+                li.nav-item
+                    a.nav-link.active#lorem-tab(data-toggle="tab" href="#lorem" role="tab" aria-controls="lorem" aria-selected="true") Lorem
+                li.nav-item
+                    a.nav-link#impsum-tab(data-toggle="tab" href="#impsum" role="tab" aria-controls="impsum" aria-selected="true") Impsum
+        div.tab-content#myTabContent
+            div.tab-pane.active#lorem(role="tabpanel" aria-labelledby="lorem-tab")
+                ul.list-group.list-group-flush
+                    - var n = 0
+                    while n < 5
+                        li.list-group-item.col-auto Lorem impsum
+                        - n++
+            div.tab-pane#impsum(role="tabpanel" aria-labelledby="impsum-tab")
+                ul.list-group.list-group-flush
+                    - var n = 0
+                    while n < 5
+                        li.list-group-item.col-auto adasdasdasdasda
+                        - n++
+    div.row.mr-0.ml-0.mt-1
+        div.col#latestMatches
             div.card
-                p Lorem impsum
-        div.row.mr-0.ml-0
-            div.col#latestMatches
-                div.card
-                    div.card-header Latest Matches
-                    ul.list-group.list-group-flush(v-for='match in matches' v-cloak)
-                        li.list-group-item
-                            span(:class='[match.team1.result > match.team2.result ? "text-success":"text-danger"]') {{ match.team1.name }}
-                            span  - 
-                            span(:class='[match.team1.result < match.team2.result ? "text-success":"text-danger"]') {{ match.team2.name }}
-                            span  {{ match.team1.result }}:{{ match.team2.result }}
-            div.col
-                figure.figure
-                    img.figure-img.img-fluid.rounded(src="https://i.pinimg.com/736x/b4/a5/00/b4a500f0981128613e129c8a3d25346c--vans-black-friday-friday-.jpg")
+                div.card-header Latest Matches
+                ul.list-group.list-group-flush(v-for='match in matches' v-cloak)
+                    li.list-group-item
+                        span(:class='[match.team1.result > match.team2.result ? "text-success":"text-danger"]') {{ match.team1.name }}
+                        span  - 
+                        span(:class='[match.team1.result < match.team2.result ? "text-success":"text-danger"]') {{ match.team2.name }}
+                        span  {{ match.team1.result }}:{{ match.team2.result }}
+        div.col
+            figure.figure
+                img.figure-img.img-fluid.rounded(src="https://i.pinimg.com/736x/b4/a5/00/b4a500f0981128613e129c8a3d25346c--vans-black-friday-friday-.jpg")
     script(src='/javascripts/latestMatches.js')

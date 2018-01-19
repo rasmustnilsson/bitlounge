@@ -53,12 +53,12 @@ function loadFinishedMatches() {
                 team1: {
                     id: matches[i].team1.id,
                     name: matches[i].team1.name,
-                    result: matches[i].result.split(' ')[0],
+                    result: parseInt(matches[i].result.split(' ')[0]),
                 },
                 team2: {
                     id: matches[i].team2.id,
                     name: matches[i].team2.name,
-                    result: matches[i].result.split(' ')[2],
+                    result: parseInt(matches[i].result.split(' ')[2]),
                 },
             })
         }
